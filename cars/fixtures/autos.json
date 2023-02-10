@@ -1,0 +1,497 @@
+[
+{
+  "model": "cars.auto",
+  "pk": 1,
+  "fields": {
+    "model_name": "CorollaR-1.8",
+    "vendor": "Toyota",
+    "color": "red",
+    "engine_volume": "1.80",
+    "transmission": "auto",
+    "fuel": "petrol",
+    "frame": "hatchback",
+    "segment": "C",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 2,
+  "fields": {
+    "model_name": "CorollaB-1.8",
+    "vendor": "Toyota",
+    "color": "black",
+    "engine_volume": "1.80",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "C",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 3,
+  "fields": {
+    "model_name": "Tesla3",
+    "vendor": "Tesla",
+    "color": "blue",
+    "engine_volume": "1.60",
+    "transmission": "auto",
+    "fuel": "electro",
+    "frame": "sedan",
+    "segment": "D",
+    "origin": "America"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 4,
+  "fields": {
+    "model_name": "TeslaS",
+    "vendor": "Tesla",
+    "color": "red",
+    "engine_volume": "1.80",
+    "transmission": "auto",
+    "fuel": "electro",
+    "frame": "hatchback",
+    "segment": "C",
+    "origin": "America"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 5,
+  "fields": {
+    "model_name": "TeslaY",
+    "vendor": "Tesla",
+    "color": "grey",
+    "engine_volume": "2.60",
+    "transmission": "auto",
+    "fuel": "electro",
+    "frame": "universal",
+    "segment": "D",
+    "origin": "America"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 6,
+  "fields": {
+    "model_name": "TeslaX",
+    "vendor": "Tesla",
+    "color": "white",
+    "engine_volume": "2.20",
+    "transmission": "auto",
+    "fuel": "electro",
+    "frame": "universal",
+    "segment": "D",
+    "origin": "America"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 7,
+  "fields": {
+    "model_name": "TeslaCybertrack",
+    "vendor": "Tesla",
+    "color": "silver",
+    "engine_volume": "3.00",
+    "transmission": "auto",
+    "fuel": "electro",
+    "frame": "minivan",
+    "segment": "J",
+    "origin": "America"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 8,
+  "fields": {
+    "model_name": "BMW2D",
+    "vendor": "BMW",
+    "color": "blue",
+    "engine_volume": "2.20",
+    "transmission": "mech",
+    "fuel": "diesel",
+    "frame": "universal",
+    "segment": "D",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 9,
+  "fields": {
+    "model_name": "BMW3P",
+    "vendor": "BMW",
+    "color": "white",
+    "engine_volume": "2.20",
+    "transmission": "auto",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "C",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 10,
+  "fields": {
+    "model_name": "BMW4D",
+    "vendor": "BMW",
+    "color": "grey",
+    "engine_volume": "2.20",
+    "transmission": "auto",
+    "fuel": "diesel",
+    "frame": "universal",
+    "segment": "E",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 11,
+  "fields": {
+    "model_name": "BMW7",
+    "vendor": "BMW",
+    "color": "silver",
+    "engine_volume": "2.50",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "universal",
+    "segment": "M",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 12,
+  "fields": {
+    "model_name": "BMWi7",
+    "vendor": "BMW",
+    "color": "black",
+    "engine_volume": "2.40",
+    "transmission": "auto",
+    "fuel": "petrol",
+    "frame": "hatchback",
+    "segment": "D",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 13,
+  "fields": {
+    "model_name": "KIA Rio",
+    "vendor": "KIA",
+    "color": "white",
+    "engine_volume": "1.40",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "C",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 14,
+  "fields": {
+    "model_name": "KIA Rio +",
+    "vendor": "KIA",
+    "color": "cyan",
+    "engine_volume": "1.60",
+    "transmission": "auto",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "C",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 15,
+  "fields": {
+    "model_name": "Hunndai Solaris G",
+    "vendor": "Hundai",
+    "color": "gre",
+    "engine_volume": "1.60",
+    "transmission": "auto",
+    "fuel": "gas",
+    "frame": "hatchback",
+    "segment": "B",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 16,
+  "fields": {
+    "model_name": "Hundai Solaris D",
+    "vendor": "Hundai",
+    "color": "green",
+    "engine_volume": "1.80",
+    "transmission": "mech",
+    "fuel": "diesel",
+    "frame": "hatchback",
+    "segment": "D",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 17,
+  "fields": {
+    "model_name": "Audi e-tron",
+    "vendor": "Audi",
+    "color": "grey",
+    "engine_volume": "1.60",
+    "transmission": "auto",
+    "fuel": "hybrid",
+    "frame": "sedan",
+    "segment": "E",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 18,
+  "fields": {
+    "model_name": "Audi A4",
+    "vendor": "Audi",
+    "color": "sil",
+    "engine_volume": "1.80",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "hatchback",
+    "segment": "C",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 19,
+  "fields": {
+    "model_name": "Audi A5",
+    "vendor": "Audi",
+    "color": "orange",
+    "engine_volume": "1.80",
+    "transmission": "mech",
+    "fuel": "diesel",
+    "frame": "other",
+    "segment": "B",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 20,
+  "fields": {
+    "model_name": "Audi A6",
+    "vendor": "Audi",
+    "color": "black",
+    "engine_volume": "1.80",
+    "transmission": "auto",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "D",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 21,
+  "fields": {
+    "model_name": "Audi Q5",
+    "vendor": "Audi",
+    "color": "blue",
+    "engine_volume": "2.20",
+    "transmission": "auto",
+    "fuel": "hybrid",
+    "frame": "universal",
+    "segment": "F",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 22,
+  "fields": {
+    "model_name": "Audi Sportback",
+    "vendor": "Audi",
+    "color": "blue",
+    "engine_volume": "2.50",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "universal",
+    "segment": "S",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 23,
+  "fields": {
+    "model_name": "Peugeot 408 grey",
+    "vendor": "Peugeot",
+    "color": "grey",
+    "engine_volume": "1.40",
+    "transmission": "mech",
+    "fuel": "diesel",
+    "frame": "sedan",
+    "segment": "B",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 24,
+  "fields": {
+    "model_name": "Peugeot 408 white",
+    "vendor": "Peugeot",
+    "color": "white",
+    "engine_volume": "1.40",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "B",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 25,
+  "fields": {
+    "model_name": "Peugeot Partner",
+    "vendor": "Peugeot",
+    "color": "green",
+    "engine_volume": "2.00",
+    "transmission": "mech",
+    "fuel": "gas",
+    "frame": "minivan",
+    "segment": "E",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 26,
+  "fields": {
+    "model_name": "Peugeot Expert",
+    "vendor": "Peugeot",
+    "color": "black",
+    "engine_volume": "2.00",
+    "transmission": "mech",
+    "fuel": "diesel",
+    "frame": "microbus",
+    "segment": "E",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 27,
+  "fields": {
+    "model_name": "Peugeot Traveller",
+    "vendor": "Peugeot",
+    "color": "black",
+    "engine_volume": "2.20",
+    "transmission": "auto",
+    "fuel": "diesel",
+    "frame": "bus",
+    "segment": "E",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 28,
+  "fields": {
+    "model_name": "Peugeot 5008",
+    "vendor": "Peugeot",
+    "color": "White",
+    "engine_volume": "1.80",
+    "transmission": "auto",
+    "fuel": "hybrid",
+    "frame": "universal",
+    "segment": "D",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 29,
+  "fields": {
+    "model_name": "Mercedes-Benz S",
+    "vendor": "Mercedes",
+    "color": "blue",
+    "engine_volume": "2.20",
+    "transmission": "auto",
+    "fuel": "petrol",
+    "frame": "universal",
+    "segment": "S",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 30,
+  "fields": {
+    "model_name": "Mercedes-Benz GLS",
+    "vendor": "Mercedes",
+    "color": "gold",
+    "engine_volume": "1.80",
+    "transmission": "auto",
+    "fuel": "hybrid",
+    "frame": "universal",
+    "segment": "S",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 31,
+  "fields": {
+    "model_name": "Mercedes-Benz E",
+    "vendor": "Mercedes",
+    "color": "red",
+    "engine_volume": "1.80",
+    "transmission": "mech",
+    "fuel": "diesel",
+    "frame": "other",
+    "segment": "E",
+    "origin": "Europe"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 32,
+  "fields": {
+    "model_name": "Nissan Z",
+    "vendor": "Nissan",
+    "color": "orange",
+    "engine_volume": "3.20",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "other",
+    "segment": "J",
+    "origin": "Asia"
+  }
+},
+{
+  "model": "cars.auto",
+  "pk": 33,
+  "fields": {
+    "model_name": "Subaru BRZ",
+    "vendor": "Subaru",
+    "color": "grey",
+    "engine_volume": "2.80",
+    "transmission": "mech",
+    "fuel": "petrol",
+    "frame": "sedan",
+    "segment": "J",
+    "origin": "Asia"
+  }
+}
+]

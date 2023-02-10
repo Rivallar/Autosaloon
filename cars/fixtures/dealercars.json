@@ -1,0 +1,902 @@
+[
+{
+  "model": "cars.dealercars",
+  "pk": 1,
+  "fields": {
+    "dealer": 1,
+    "car": 3,
+    "car_price": "45000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 3,
+  "fields": {
+    "dealer": 1,
+    "car": 4,
+    "car_price": "45000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 4,
+  "fields": {
+    "dealer": 1,
+    "car": 5,
+    "car_price": "45000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 5,
+  "fields": {
+    "dealer": 1,
+    "car": 6,
+    "car_price": "45000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 6,
+  "fields": {
+    "dealer": 1,
+    "car": 7,
+    "car_price": "45000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 7,
+  "fields": {
+    "dealer": 2,
+    "car": 33,
+    "car_price": "20000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 8,
+  "fields": {
+    "dealer": 2,
+    "car": 32,
+    "car_price": "20000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 9,
+  "fields": {
+    "dealer": 2,
+    "car": 16,
+    "car_price": "20000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 10,
+  "fields": {
+    "dealer": 2,
+    "car": 15,
+    "car_price": "20000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 11,
+  "fields": {
+    "dealer": 2,
+    "car": 13,
+    "car_price": "20000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 12,
+  "fields": {
+    "dealer": 2,
+    "car": 14,
+    "car_price": "22000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 13,
+  "fields": {
+    "dealer": 2,
+    "car": 1,
+    "car_price": "20000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 14,
+  "fields": {
+    "dealer": 2,
+    "car": 2,
+    "car_price": "22000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 15,
+  "fields": {
+    "dealer": 3,
+    "car": 8,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 16,
+  "fields": {
+    "dealer": 3,
+    "car": 9,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 17,
+  "fields": {
+    "dealer": 3,
+    "car": 10,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 18,
+  "fields": {
+    "dealer": 3,
+    "car": 11,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 19,
+  "fields": {
+    "dealer": 3,
+    "car": 12,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 20,
+  "fields": {
+    "dealer": 3,
+    "car": 17,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 21,
+  "fields": {
+    "dealer": 3,
+    "car": 18,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 22,
+  "fields": {
+    "dealer": 3,
+    "car": 19,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 23,
+  "fields": {
+    "dealer": 3,
+    "car": 20,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 24,
+  "fields": {
+    "dealer": 3,
+    "car": 21,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 25,
+  "fields": {
+    "dealer": 3,
+    "car": 22,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 26,
+  "fields": {
+    "dealer": 3,
+    "car": 23,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 27,
+  "fields": {
+    "dealer": 3,
+    "car": 24,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 28,
+  "fields": {
+    "dealer": 3,
+    "car": 25,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 29,
+  "fields": {
+    "dealer": 3,
+    "car": 26,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 30,
+  "fields": {
+    "dealer": 3,
+    "car": 27,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 31,
+  "fields": {
+    "dealer": 3,
+    "car": 28,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 32,
+  "fields": {
+    "dealer": 3,
+    "car": 29,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 33,
+  "fields": {
+    "dealer": 3,
+    "car": 30,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 34,
+  "fields": {
+    "dealer": 3,
+    "car": 31,
+    "car_price": "30000.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 35,
+  "fields": {
+    "dealer": 4,
+    "car": 1,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 36,
+  "fields": {
+    "dealer": 4,
+    "car": 2,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 37,
+  "fields": {
+    "dealer": 4,
+    "car": 3,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 38,
+  "fields": {
+    "dealer": 4,
+    "car": 4,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 39,
+  "fields": {
+    "dealer": 4,
+    "car": 5,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 40,
+  "fields": {
+    "dealer": 4,
+    "car": 6,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 41,
+  "fields": {
+    "dealer": 4,
+    "car": 7,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 42,
+  "fields": {
+    "dealer": 4,
+    "car": 13,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 43,
+  "fields": {
+    "dealer": 4,
+    "car": 14,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 44,
+  "fields": {
+    "dealer": 4,
+    "car": 15,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 45,
+  "fields": {
+    "dealer": 4,
+    "car": 16,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 46,
+  "fields": {
+    "dealer": 4,
+    "car": 32,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 47,
+  "fields": {
+    "dealer": 4,
+    "car": 33,
+    "car_price": "28500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 48,
+  "fields": {
+    "dealer": 5,
+    "car": 1,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 49,
+  "fields": {
+    "dealer": 5,
+    "car": 2,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 50,
+  "fields": {
+    "dealer": 5,
+    "car": 3,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 51,
+  "fields": {
+    "dealer": 5,
+    "car": 4,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 52,
+  "fields": {
+    "dealer": 5,
+    "car": 5,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 53,
+  "fields": {
+    "dealer": 5,
+    "car": 6,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 54,
+  "fields": {
+    "dealer": 5,
+    "car": 8,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 55,
+  "fields": {
+    "dealer": 5,
+    "car": 9,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 56,
+  "fields": {
+    "dealer": 5,
+    "car": 12,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 57,
+  "fields": {
+    "dealer": 5,
+    "car": 13,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 58,
+  "fields": {
+    "dealer": 5,
+    "car": 14,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 59,
+  "fields": {
+    "dealer": 5,
+    "car": 15,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 60,
+  "fields": {
+    "dealer": 5,
+    "car": 16,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 61,
+  "fields": {
+    "dealer": 5,
+    "car": 18,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 62,
+  "fields": {
+    "dealer": 5,
+    "car": 19,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 63,
+  "fields": {
+    "dealer": 5,
+    "car": 20,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 64,
+  "fields": {
+    "dealer": 5,
+    "car": 23,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 65,
+  "fields": {
+    "dealer": 5,
+    "car": 24,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 66,
+  "fields": {
+    "dealer": 5,
+    "car": 28,
+    "car_price": "19500.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 67,
+  "fields": {
+    "dealer": 6,
+    "car": 10,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 68,
+  "fields": {
+    "dealer": 6,
+    "car": 11,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 69,
+  "fields": {
+    "dealer": 6,
+    "car": 17,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 70,
+  "fields": {
+    "dealer": 6,
+    "car": 21,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 71,
+  "fields": {
+    "dealer": 6,
+    "car": 22,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 72,
+  "fields": {
+    "dealer": 6,
+    "car": 25,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 73,
+  "fields": {
+    "dealer": 6,
+    "car": 26,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 74,
+  "fields": {
+    "dealer": 6,
+    "car": 27,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 75,
+  "fields": {
+    "dealer": 6,
+    "car": 29,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 76,
+  "fields": {
+    "dealer": 6,
+    "car": 30,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 77,
+  "fields": {
+    "dealer": 6,
+    "car": 31,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 78,
+  "fields": {
+    "dealer": 6,
+    "car": 34,
+    "car_price": "49999.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 79,
+  "fields": {
+    "dealer": 7,
+    "car": 3,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 80,
+  "fields": {
+    "dealer": 7,
+    "car": 4,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 81,
+  "fields": {
+    "dealer": 7,
+    "car": 5,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 82,
+  "fields": {
+    "dealer": 7,
+    "car": 6,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 83,
+  "fields": {
+    "dealer": 7,
+    "car": 7,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 84,
+  "fields": {
+    "dealer": 7,
+    "car": 17,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 85,
+  "fields": {
+    "dealer": 7,
+    "car": 21,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 86,
+  "fields": {
+    "dealer": 7,
+    "car": 28,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 87,
+  "fields": {
+    "dealer": 7,
+    "car": 30,
+    "car_price": "33800.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 88,
+  "fields": {
+    "dealer": 8,
+    "car": 5,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 89,
+  "fields": {
+    "dealer": 8,
+    "car": 6,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 90,
+  "fields": {
+    "dealer": 8,
+    "car": 7,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 91,
+  "fields": {
+    "dealer": 8,
+    "car": 8,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 92,
+  "fields": {
+    "dealer": 8,
+    "car": 10,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 93,
+  "fields": {
+    "dealer": 8,
+    "car": 11,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 94,
+  "fields": {
+    "dealer": 8,
+    "car": 21,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 95,
+  "fields": {
+    "dealer": 8,
+    "car": 22,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 96,
+  "fields": {
+    "dealer": 8,
+    "car": 25,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 97,
+  "fields": {
+    "dealer": 8,
+    "car": 26,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 98,
+  "fields": {
+    "dealer": 8,
+    "car": 27,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 99,
+  "fields": {
+    "dealer": 8,
+    "car": 28,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 100,
+  "fields": {
+    "dealer": 8,
+    "car": 29,
+    "car_price": "47400.00"
+  }
+},
+{
+  "model": "cars.dealercars",
+  "pk": 101,
+  "fields": {
+    "dealer": 8,
+    "car": 30,
+    "car_price": "47400.00"
+  }
+}
+]
