@@ -5,7 +5,7 @@ from .models import Auto
 def find_cars_and_dealers(saloon):
 	
 	"""Takes JSON-encoded set of characteristics from AutoSaloon and
-	returns a dict of car models meeting this requirements with best
+	returns a dict of car models meeting these requirements with the best
 	dealer to buy this car."""
 	
 	qs = Auto.objects.all()
@@ -21,4 +21,4 @@ def find_cars_and_dealers(saloon):
 			best_dealer = ''
 		result[car.model_name] = best_dealer
 	
-	return(result)
+	return result
