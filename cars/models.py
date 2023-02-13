@@ -3,9 +3,7 @@ from django.db import models
 
 from django_countries.fields import CountryField
 
-from .car_options_choices import TRANSMISSION_CHOICES, FUEL_CHOICES, \
-	FRAME_CHOICES, CLASS_CHOICES, ORIGIN_CHOICES
-from .validators import check_characteristics_field
+from cars.validators import check_characteristics_field
 
 
 
@@ -22,20 +20,58 @@ class Auto(models.Model):
 	engine_volume = models.DecimalField(max_digits=4, decimal_places=2,
 		validators=[MinValueValidator(0.2), MaxValueValidator(30)]) 
 	
+	class TransmissionChoices(models.TextChoices):
+		MECH = 'mech'
+		AUTO = 'auto'
+				
 	transmission = models.CharField(max_length=25, 
-		choices=TRANSMISSION_CHOICES, default='auto')
+		choices=TransmissionChoices.choices, default=TransmissionChoices.AUTO)
+		
+	class FuelChoices(models.TextChoices):
+		GAS = 'gas'
+		DIESEL = 'diesel'
+		ELECTRO = 'electro'
+		PETROL = 'petrol'
+		HYBRID = 'hybrid'
 		
 	fuel = models.CharField(max_length=25, 
-		choices=FUEL_CHOICES, default='petrol')
+		choices=FuelChoices.choices, default=FuelChoices.PETROL)
+		
+	class FrameChoices(models.TextChoices):
+		BUS = 'bus'
+		MICROBUS = 'microbus'
+		MINIVAN = 'minivan'
+		SEDAN = 'sedan'
+		PICKUP = 'pickup'
+		UNIVERSAL = 'universal'
+		HATCHBACK = 'hatchback'
+		OTHER = 'other'
 		
 	frame = models.CharField(max_length=50, 
-		choices=FRAME_CHOICES, default='sedan')
+		choices=FrameChoices.choices, default=FrameChoices.SEDAN)
+		
+	class SegmentChoices(models.TextChoices):
+		A = 'A'
+		B = 'B'
+		C = 'C'
+		D = 'D'
+		E = 'E'
+		F = 'F'
+		S = 'S'
+		M = 'M'
+		J = 'J'
 		
 	segment = models.CharField(max_length=5, 
-		choices=CLASS_CHOICES, default='C')
+		choices=SegmentChoices.choices, default=SegmentChoices.C)
+		
+	class OriginChoices(models.TextChoices):
+		ASIA = 'Asia'
+		EUROPE = 'Europe'
+		AMERICA = 'America'
+		OTHER = 'other'
 		
 	origin = models.CharField(max_length=50, 
-		choices=ORIGIN_CHOICES, default='Europe')
+		choices=OriginChoices.choices, default=OriginChoices.EUROPE)
 		
 		
 	def __str__(self):
