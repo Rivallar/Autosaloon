@@ -685,15 +685,6 @@
 },
 {
   "model": "cars.dealercars",
-  "pk": 78,
-  "fields": {
-    "dealer": 6,
-    "car": 34,
-    "car_price": "49999.00"
-  }
-},
-{
-  "model": "cars.dealercars",
   "pk": 79,
   "fields": {
     "dealer": 7,
