@@ -3,18 +3,11 @@ from django.db import models
 
 from django_countries.fields import CountryField
 
-<<<<<<< HEAD
 from cars.validators import check_characteristics_field
-=======
-from .car_options_choices import TRANSMISSION_CHOICES, FUEL_CHOICES, \
-    FRAME_CHOICES, CLASS_CHOICES, ORIGIN_CHOICES
-from .validators import check_characteristics_field
->>>>>>> 959d07758beb37ba96c2e75229b37f2de3db3f77
 
 
 # Create your models here.
 class Auto(models.Model):
-<<<<<<< HEAD
 	
 	"""Describes cars with their characteristics"""
 	
@@ -84,29 +77,6 @@ class Auto(models.Model):
 		return self.model_name
 		
 		
-=======
-
-    """Describes cars with their characteristics"""
-
-    model_name = models.CharField(max_length=100, unique=True)
-    vendor = models.CharField(max_length=100)
-
-    color = models.CharField(max_length=50)
-
-    engine_volume = models.DecimalField(max_digits=4, decimal_places=2,
-                                        validators=[MinValueValidator(0.2), MaxValueValidator(30)])
-
-    transmission = models.CharField(max_length=25, choices=TRANSMISSION_CHOICES, default='auto')
-    fuel = models.CharField(max_length=25, choices=FUEL_CHOICES, default='petrol')
-    frame = models.CharField(max_length=50, choices=FRAME_CHOICES, default='sedan')
-    segment = models.CharField(max_length=5, choices=CLASS_CHOICES, default='C')
-    origin = models.CharField(max_length=50, choices=ORIGIN_CHOICES, default='Europe')
-
-    def __str__(self):
-        return self.model_name
-
-
->>>>>>> 959d07758beb37ba96c2e75229b37f2de3db3f77
 class CommonFieldsParent(models.Model):
 
     """Abstract model to describe common fields in child-models"""

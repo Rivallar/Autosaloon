@@ -1,11 +1,6 @@
 import django_filters
 
-<<<<<<< HEAD
 from cars.models import Auto
-=======
-from .models import Auto
-from .car_options_choices import FUEL_CHOICES, FRAME_CHOICES, CLASS_CHOICES, ORIGIN_CHOICES
->>>>>>> 959d07758beb37ba96c2e75229b37f2de3db3f77
 
 
 class CarFilter(django_filters.FilterSet):
