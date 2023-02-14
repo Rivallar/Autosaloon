@@ -78,7 +78,6 @@ WSGI_APPLICATION = 'autosaloon.wsgi.application'
 
 DATABASES = POSTGRES_DB
 
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
