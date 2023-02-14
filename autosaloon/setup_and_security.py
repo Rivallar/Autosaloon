@@ -1,13 +1,15 @@
-KEY = 'django-insecure-nv%9k#xpi^z6dt#7rlrt5$w%epq7n6w%nwd5g*#4$nbg0a4upm'
+import os
+
+DJANGO_KEY = os.getenv('DJANGO_KEY')
 
 POSTGRES_DB = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'Autosaloon',
-        'PASSWORD': 'AutosaloonBOSS',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': 'Autosaloon_db',
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
         }
     }
 
