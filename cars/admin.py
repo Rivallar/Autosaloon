@@ -3,11 +3,6 @@ from django.contrib import admin
 from cars.models import Auto, AutoSaloon, SaloonCars, Dealer, DealerCars
 
 
-# Register your models here.
-# admin.site.register(AutoSaloon)
-admin.site.register(SaloonCars)
-
-
 @admin.register(Auto)
 class AutoAdmin(admin.ModelAdmin):
 	list_display = ('model_name', 'vendor', 'frame', 'segment',
@@ -30,3 +25,9 @@ class DealerAdmin(admin.ModelAdmin):
 class DealerCarsAdmin(admin.ModelAdmin):
 	list_display = ('dealer', 'car', 'car_price')
 	list_filter = ('dealer', 'car')
+
+
+@admin.register(SaloonCars)
+class SaloonCarsAdmin(admin.ModelAdmin):
+	list_display = ('saloon', 'car', 'quantity', 'car_price')
+	list_filter = ('saloon', 'car', 'car_price')
