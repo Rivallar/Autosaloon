@@ -1,5 +1,5 @@
-from .filters import CarFilter
-from .models import Auto
+from trading.filters import CarFilter
+from cars.models import Auto
 
 
 def find_cars_and_dealers(saloon):
