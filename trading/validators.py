@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 def check_characteristics_field(field_value: dict):
 	
-	"""Checks if dictionary keys are cars characteristics and its value
+	"""Checks if dictionary keys are cars characteristics and their value
 	types"""
 	
 	auto_characteristics = ['frame', 'segment', 'origin', 'fuel']
@@ -20,3 +20,19 @@ def check_characteristics_field(field_value: dict):
 				raise ValidationError(f'Wrong key "{key}"')
 	else:
 		raise ValidationError('Field must be a dictionary')
+
+
+def check_discount_field(field_value: dict):
+	
+	"""Checks if dictionary keys are positive integers and values are 
+	integers or float >= 1"""
+	
+	if type(field_value) is dict:
+		for key, value in field_value.items():
+			if not key.isdigit():
+				raise ValidationError('Key must be positive integer')
+			if not type(value) in [float, int] or value < 1:
+				raise ValidationError('Value must be float >= 1')
+	else:
+		raise ValidationError('Field must be a dictionary')
+			

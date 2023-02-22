@@ -1,6 +1,8 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+from trading.validators import check_discount_field
+
 
 # Create your models here.
 class Auto(models.Model):
@@ -87,7 +89,14 @@ class Dealer(CommonFieldsParent):
     about = models.TextField(blank=True)
     foundation_date = models.DateField()
     cars_sold = models.PositiveIntegerField(default=0)
-
+    buyer_discounts = models.JSONField(default=dict, blank=True,
+		null=True, validators=[check_discount_field])
+    
+    def save(self, *args, **kwargs):
+        if not self.buyer_discounts:
+            self.buyer_discounts = {0: 1}
+        super().save(*args, **kwargs)	
+			
     def __str__(self):
         return self.name
 
@@ -104,3 +113,6 @@ class DealerCars(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['dealer', 'car'], name='Must be unique'),
             ]
+            
+    def __str__(self):
+        return f'{self.car} from {self.dealer}'

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from trading.models import Profile, Offer, DealerToSaloonHistory, \
-	SaloonToBuyerHistory, AutoSaloon, SaloonCars
+	SaloonToBuyerHistory, AutoSaloon, SaloonCars, DealerDiscount
 
 
 @admin.register(DealerToSaloonHistory)
@@ -35,3 +35,13 @@ class SaloonCarsAdmin(admin.ModelAdmin):
 @admin.register(SaloonToBuyerHistory)
 class SaloonToBuyerHistoryAdmin(admin.ModelAdmin):
 	list_display = ('saloon', 'profile', 'car', 'deal_price', 'date')
+	
+	
+@admin.register(DealerDiscount)
+class DealerDiscountAdmin(admin.ModelAdmin):
+	list_display = ('title', 'seller', 'discount', 'cars', 'start_time', 'end_time')
+		
+	def cars(self, obj):
+		return list(obj.discounted_offers.all().values_list('car__model_name', flat=True))
+		
+#admin.site.register(SaloonDiscount)

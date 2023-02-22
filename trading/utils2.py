@@ -9,11 +9,11 @@ def apply_discount(dealer, saloon, initial_price):
 	by auto-saloon from this dealer"""
 	
 	n_of_deals = DealerToSaloonHistory.objects.filter(dealer=dealer, saloon=saloon).count()
-	discount_options = {0: 1, 3: 1.1, 5: 1.2}
+	discount_options = dict(sorted(dealer.buyer_discounts.items()))
 	discount = Decimal(1)
 	
 	for key, value in discount_options.items():
-			if n_of_deals >= key:
+			if n_of_deals >= int(key):
 				discount = Decimal(value).quantize(Decimal('0.01'))
 				
 	final_price = (initial_price / discount).quantize(Decimal('0.01'))
@@ -47,3 +47,9 @@ def find_best_dealer(car, saloon):
 			best_offer[1] = dealer
 			
 	return best_offer
+	
+
+def check_m2m_discounts(discount):
+	for offer in discount.discounted_offers.all():
+		if offer.dealer != discount.seller:
+			discount.discounted_offers.remove(offer)
