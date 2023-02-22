@@ -13,9 +13,6 @@ def check_characteristics_field(field_value: dict):
 			if key in auto_characteristics:
 				if not type(value) is list:
 					raise ValidationError(f'"{key}" value must be a list')
-			elif key == 'vendor':
-				if not type(value) is str:
-					raise ValidationError(f'"{key}" value must be a string')
 			else:
 				raise ValidationError(f'Wrong key "{key}"')
 	else:

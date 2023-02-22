@@ -14,4 +14,4 @@ class CarFilter(django_filters.FilterSet):
 	
 	class Meta:
 		model = Auto
-		fields = ['origin', 'frame', 'segment', 'vendor']
+		fields = ['origin', 'frame', 'segment']

@@ -1,5 +1,6 @@
 from cars.models import Auto
 from trading.filters import CarFilter
+# from trading.utils2 import find_best_dealer
 
 
 def find_cars_and_dealers(saloon):
@@ -15,10 +16,11 @@ def find_cars_and_dealers(saloon):
 	result = {}
 	for car in cars:
 		dealer_offers = car.dealers_selling.all().order_by('car_price')
+		# dealer_offers = find_best_dealer(car, saloon)
 		if dealer_offers:
-			best_dealer = dealer_offers[0].dealer.name
+			best_dealer = dealer_offers[1]
+			result[car.model_name] = {"car_id": car.id, "dealer_id": best_dealer.id, "dealer_name": best_dealer.name}
 		else:
-			best_dealer = ''
-		result[car.model_name] = best_dealer
+			result[car.model_name] = {"car_id": car.id, "dealer_id": '', "dealer_name": ''}
 	
 	return result
