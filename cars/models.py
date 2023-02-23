@@ -68,7 +68,7 @@ class Auto(models.Model):
     origin = models.CharField(max_length=50, choices=OriginChoices.choices, default=OriginChoices.EUROPE)
 
     def __str__(self):
-        return self.model_name
+        return f'{self.model_name} - {self.origin}'
 
 
 class CommonFieldsParent(models.Model):

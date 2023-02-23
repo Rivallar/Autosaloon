@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from cars.models import Auto
+from cars.filters import CarFilter
 from trading.models import DealerToSaloonHistory
 
 
@@ -20,6 +22,7 @@ def apply_discount(dealer, saloon, initial_price):
 	
 	return final_price
 
+
 def find_best_dealer(car, saloon):
 	
 	"""Gets all dealer offers of a car. Loops through each offer recalculating
@@ -38,3 +41,25 @@ def find_best_dealer(car, saloon):
 			
 	return best_offer
 
+
+def find_cars_and_dealers(saloon):
+	
+	"""Takes JSON-encoded set of characteristics from AutoSaloon and
+	returns a dict of car models meeting these requirements with the best
+	dealer to buy this car."""
+	
+	qs = Auto.objects.all()
+	car_filt = saloon.car_characteristics
+	cars = CarFilter(car_filt, qs).qs
+	
+	result = {}
+	for car in cars:
+		#dealer_offers = car.dealers_selling.all().order_by('car_price')
+		dealer_offers = find_best_dealer(car, saloon)
+		if dealer_offers:
+			best_dealer = dealer_offers[1]
+			result[car.model_name] = {"car_id": car.id, "dealer_id": best_dealer.id, "dealer_name": best_dealer.name}
+		else:
+			result[car.model_name] = {"car_id": car.id, "dealer_id": '', "dealer_name": ''}
+	
+	return result

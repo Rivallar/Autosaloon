@@ -1,14 +1,18 @@
 from decimal import Decimal
 from random import shuffle
 
-from cars.models import DealerCars
-from trading.models import DealerToSaloonHistory, SaloonCars, SaloonToBuyerHistory
+from cars.models import DealerCars, SaloonCars
+from trading.models import DealerToSaloonHistory, SaloonToBuyerHistory
 
 
 def cars_by_popularity(saloon):
 
     """Sorts saloon cars according to their popularity. Currently, random."""
 
+	cars_from_history = SaloonToBuyerHistory.objects.filter(saloon=saloon).values('car').annotate(total=Count('car'))
+	all_saloon_cars = set(value['car_id'] for value in saloon.car_models_to_trade.values())
+	car_priority = [item['car'] for item in cars_from_history]
+	cars_never_bought = x
     car_models = list(saloon.car_models_to_trade.keys())
     shuffle(car_models)
     return car_models

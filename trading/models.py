@@ -5,8 +5,6 @@ from django.db import models
 
 from cars.models import Dealer, Auto, CommonFieldsParent, DealerCars, AutoSaloon, SaloonCars
 
-from trading.utils import find_cars_and_dealers
-
 
 # Create your models here.
 class Profile(CommonFieldsParent):
