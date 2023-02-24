@@ -58,8 +58,8 @@ def find_cars_and_dealers(saloon):
 		dealer_offers = find_best_dealer(car, saloon)
 		if dealer_offers:
 			best_dealer = dealer_offers[1]
-			result[car.model_name] = {"car_id": car.id, "dealer_id": best_dealer.id, "dealer_name": best_dealer.name}
+			result[car.id] = {"car_model": car.model_name, "dealer_id": best_dealer.id, "dealer_name": best_dealer.name}
 		else:
-			result[car.model_name] = {"car_id": car.id, "dealer_id": '', "dealer_name": ''}
+			result[car.id] = {"car_model": car.model_name, "dealer_id": '', "dealer_name": ''}
 	
 	return result
