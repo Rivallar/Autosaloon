@@ -1,7 +1,6 @@
 from django.db.models import Count
 
 from decimal import Decimal
-from random import shuffle
 
 from cars.models import DealerCars, SaloonCars
 from cars.utils import apply_discount
@@ -20,22 +19,23 @@ def cars_by_popularity(saloon):
     return car_priority
     
     
-def look_for_better_discounts(saloon, const_dealer_price_discounted):
-	best_price = const_dealer_price_discounted
-	all_offers = DealerCars.objects.filter(car=car)
-	for offer in all_offers:
-		discounts = offer.car_discount.filter(is_active=True, seller=offer.dealer) # add time filters
-		if discounts:
-			final_price = apply_discount(offer.dealer, saloon, offer.car_price)
-			for discount in discounts:
-				final_price = final_price / discount.discount
-				if final_price < best_price:
-					best_price = final_price
-					best_offer_rec = offer
-	if best_offer_rec:
-		return (best_offer_rec, best_price)
-	else:
-		return None	  
+def look_for_better_discounts(saloon, const_dealer_price_discounted, car):
+    best_price = const_dealer_price_discounted
+    best_offer_rec = ''
+    all_offers = DealerCars.objects.filter(car=car)
+    for offer in all_offers:
+        discounts = offer.car_discount.filter(is_active=True, seller=offer.dealer)  # add time filters
+        if discounts:
+            final_price = apply_discount(offer.dealer, saloon, offer.car_price)
+            for discount in discounts:
+                final_price = final_price / Decimal(discount.discount).quantize(Decimal('0.01'))
+                if final_price < best_price:
+                    best_price = final_price.quantize(Decimal('0.01'))
+                    best_offer_rec = offer
+    if best_offer_rec:
+        return (best_offer_rec, best_price)
+    else:
+        return None
 
 
 def saloon_buys_update_db(saloon, saloon_car_record, dealer_car_record, deal_price):
@@ -68,18 +68,25 @@ def saloon_buys_car(saloon):
 
     cars_priority = cars_by_popularity(saloon)
     for car in cars_priority:
+        print(saloon.car_models_to_trade)
         saloon_car_record = SaloonCars.objects.filter(saloon=saloon, car=car)
         if not saloon_car_record or saloon_car_record[0].quantity < 2:
-		const_dealer = saloon.car_models_to_trade[str(car)]['dealer_id']
-		dealer_car_record = DealerCars.objects.get(dealer=const_dealer, car=car)
-		const_dealer_price_discounted = aplly_discount(const_dealer, saloon, dealer_car_record.car_price)
-		best_offer = look_for_better_discounts(saloon, const_dealer_price_discounted)
-		if not best_offer:
-			best_offer = (dealer_car_record, const_dealer_price_discounted)
-		if saloon.balance >= best_offer[1]:
-			saloon_buys_update_db(saloon, saloon_car_record, best_offer[0], best_offer[1])
-			break
-		print(f"Can not  buy car {car}. Saloon has no money.")
+            try:
+                const_dealer = saloon.car_models_to_trade[f'{car}']['dealer_id']
+            except KeyError:
+                const_dealer = saloon.car_models_to_trade[car]['dealer_id']
+            dealer_car_record = DealerCars.objects.get(dealer=const_dealer, car=car)
+            const_dealer_price_discounted = apply_discount(dealer_car_record.dealer, saloon, dealer_car_record.car_price)
+
+            best_offer = look_for_better_discounts(saloon, const_dealer_price_discounted, car)
+            if not best_offer:
+                best_offer = (dealer_car_record, const_dealer_price_discounted)
+
+            if saloon.balance >= best_offer[1]:
+                saloon_buys_update_db(saloon, saloon_car_record, best_offer[0], best_offer[1])
+                break
+            print(f"Can not  buy car {car}. Saloon has no money.")
+
         else:
             print(f'Too many cars {car} in saloon')
 
