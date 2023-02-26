@@ -3,8 +3,6 @@ import datetime
 
 from cars.models import Dealer
 
-def test_that_works():
-	assert 1 == 1
 
 @pytest.mark.django_db
 def test_softdelete():

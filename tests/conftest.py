@@ -1,8 +1,14 @@
 import pytest
+from pytest_factoryboy import register
 from django.db import connections
+
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+from tests.factories import AutosaloonFactory
+
+register(AutosaloonFactory)
 
 
 def run_sql(sql):

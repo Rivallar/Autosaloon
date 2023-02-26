@@ -1,21 +1,33 @@
 from django.core.exceptions import ValidationError
 
+# from trading.utils import get_auto_params
+
 
 def check_characteristics_field(field_value: dict):
-	
+
 	"""Checks if dictionary keys are cars characteristics and their value
 	types"""
-	
-	auto_characteristics = ['frame', 'segment', 'origin', 'fuel']
-	
+
 	if type(field_value) is dict:
 		for key, value in field_value.items():
-			if key in auto_characteristics:
-				if not type(value) is list:
-					raise ValidationError(f'"{key}" value must be a list')
-			elif key == 'vendor':
-				if not type(value) is str:
-					raise ValidationError(f'"{key}" value must be a string')
+			if not type(value) is list:
+				raise ValidationError(f'"{value}" value must be a list')
+			if key == 'frame':
+				for item in value:
+					if item not in ['bus', 'microbus', 'minivan', 'sedan', 'pickup', 'universal', 'hatchback', 'other']:
+						raise ValidationError(f'Wrong value "{item}"')
+			elif key == 'segment':
+				for item in value:
+					if item not in ['A', 'B', 'C', 'D', 'E', 'F', 'S', 'M', 'J']:
+						raise ValidationError(f'Wrong value "{item}"')
+			elif key == 'origin':
+				for item in value:
+					if item not in ['Asia', 'Europe', 'America', 'other']:
+						raise ValidationError(f'Wrong value "{item}"')
+			elif key == 'fuel':
+				for item in value:
+					if item not in ['gas', 'electro', 'petrol', 'hybrid']:
+						raise ValidationError(f'Wrong value "{item}"')
 			else:
 				raise ValidationError(f'Wrong key "{key}"')
 	else:
