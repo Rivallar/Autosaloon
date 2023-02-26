@@ -157,3 +157,5 @@ class SaloonCars(models.Model):
 
     quantity = models.PositiveSmallIntegerField(default=0)
     car_price = models.DecimalField(max_digits=9, decimal_places=2, validators=[MinValueValidator(0)])
+    def __str__(self):
+        return f'{self.saloon} - {self.car}'
