@@ -8,7 +8,8 @@ django = "*"
 django-countries = "*"
 django-filter = "*"
 psycopg2 = "*"
-
+pytest-django = "*"
+pytest-django-testing-postgresql = "*"
 
 [dev-packages]
 

@@ -73,15 +73,29 @@ class CommonFieldsParent(models.Model):
 
     """Abstract model to describe common fields in child-models"""
 
-    is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
+        
+        
+class SoftDeleteMixin(models.Model):
+	
+	is_active = models.BooleanField(default=True)
+	
+	class Meta:
+		abstract = True
+		
+	def delete(self, is_soft=True, *args, **kwargs):
+		if is_soft:
+			self.is_active = False
+			self.save()
+		else:
+			super().delete(*args, **kwargs)
 
 
-class Dealer(CommonFieldsParent):
+class Dealer(CommonFieldsParent, SoftDeleteMixin):
 
     """Represents info about car dealers"""
 

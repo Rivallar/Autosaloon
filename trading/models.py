@@ -5,13 +5,13 @@ from django.db import models
 
 from django_countries.fields import CountryField
 
-from cars.models import Dealer, Auto, CommonFieldsParent, DealerCars
+from cars.models import Dealer, Auto, CommonFieldsParent, DealerCars, SoftDeleteMixin
 from trading.validators import check_characteristics_field, check_discount_field
 from trading.utils import find_cars_and_dealers
 
 
 # Create your models here.
-class Profile(CommonFieldsParent):
+class Profile(CommonFieldsParent, SoftDeleteMixin):
 
     """Profile of a user who wants to buy a car."""
 
@@ -25,7 +25,7 @@ class Profile(CommonFieldsParent):
         return self.user.username
 
 
-class Offer(CommonFieldsParent):
+class Offer(CommonFieldsParent, SoftDeleteMixin):
 
     """An offer of a User to buy a car."""
 
@@ -45,7 +45,7 @@ class Offer(CommonFieldsParent):
         super().save(*args, **kwargs)
 
 
-class AutoSaloon(CommonFieldsParent):
+class AutoSaloon(CommonFieldsParent, SoftDeleteMixin):
 
     """Represents all info about each auto-saloon"""
 
@@ -109,7 +109,7 @@ class SaloonToBuyerHistory(models.Model):
     deal_price = models.DecimalField(max_digits=9, decimal_places=2, validators=[MinValueValidator(0)])
 
 
-class DealerDiscount(CommonFieldsParent):
+class DealerDiscount(CommonFieldsParent, SoftDeleteMixin):
 	
 	title = models.CharField(max_length=100)
 	description = models.TextField()
@@ -133,7 +133,7 @@ class DealerDiscount(CommonFieldsParent):
 		return f'{self.seller}: {self.title}'
 		
 
-class SaloonDiscount(CommonFieldsParent):
+class SaloonDiscount(CommonFieldsParent, SoftDeleteMixin):
 	
 	title = models.CharField(max_length=100)
 	description = models.TextField()
