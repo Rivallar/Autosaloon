@@ -1,8 +1,18 @@
 import pytest
+from pytest_factoryboy import register
 from django.db import connections
+
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+from tests.factories import AutosaloonFactory, ProfileFactory, AutoFactory, UserFactory
+
+register(AutosaloonFactory)
+register(UserFactory)
+register(ProfileFactory)
+register(AutoFactory)
+
 
 
 def run_sql(sql):
@@ -34,3 +44,10 @@ def django_db_setup():
 		'HOST': 'localhost',
 		'NAME': 'postgres'
 	}
+
+
+@pytest.fixture
+def profile_and_car_for_offer(db, profile_factory, auto_factory):
+	profile = profile_factory.create()
+	car = auto_factory.create()
+	return profile.id, car.id

@@ -61,7 +61,7 @@ class AutoSaloon(CommonFieldsParent, SoftDeleteMixin):
     balance = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0)])
     
     buyer_discounts = models.JSONField(default=dict, blank=True,
-		null=True, validators=[check_discount_field])
+        null=True, validators=[check_discount_field])
 
     def __str__(self):
         return self.name
@@ -110,49 +110,49 @@ class SaloonToBuyerHistory(models.Model):
 
 
 class DealerDiscount(CommonFieldsParent, SoftDeleteMixin):
-	
-	title = models.CharField(max_length=100)
-	description = models.TextField()
-	discount = models.FloatField(validators=[MinValueValidator(1)])
-	start_time = models.DateTimeField()
-	end_time = models.DateTimeField()
-	
-	seller = models.ForeignKey(Dealer, on_delete=models.CASCADE, related_name='discounts')
-	discounted_offers = models.ManyToManyField(DealerCars, related_name='car_discount', blank=True)
-	
-	def clean(self):
-		if self.start_time >= self.end_time:
-			raise ValidationError({'end_time': 'End time must be bigger then Start time'})
-			
-	def save(self, *args, **kwargs):
-		self.full_clean()
-		super().save(*args, **kwargs)
 
-		
-	def __str__(self):
-		return f'{self.seller}: {self.title}'
-		
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    discount = models.FloatField(validators=[MinValueValidator(1)])
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    seller = models.ForeignKey(Dealer, on_delete=models.CASCADE, related_name='discounts')
+    discounted_offers = models.ManyToManyField(DealerCars, related_name='car_discount', blank=True)
+
+    def clean(self):
+        if self.start_time >= self.end_time:
+            raise ValidationError({'end_time': 'End time must be bigger then Start time'})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f'{self.seller}: {self.title}'
+
 
 class SaloonDiscount(CommonFieldsParent, SoftDeleteMixin):
-	
-	title = models.CharField(max_length=100)
-	description = models.TextField()
-	discount = models.FloatField(validators=[MinValueValidator(1)])
-	start_time = models.DateTimeField()
-	end_time = models.DateTimeField()
-	
-	seller = models.ForeignKey(AutoSaloon, on_delete=models.CASCADE, related_name='discounts')
-	discounted_offers = models.ManyToManyField(SaloonCars, related_name='car_discount', blank=True)
-	
-	def clean(self):
-		if self.start_time >= self.end_time:
-			raise ValidationError({'end_time': 'End time must be bigger then Start time'})
-			
-	def save(self, *args, **kwargs):
-		self.full_clean()
-		super().save(*args, **kwargs)
 
-		
-	def __str__(self):
-		return f'{self.seller}: {self.title}'
-	
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    discount = models.FloatField(validators=[MinValueValidator(1)])
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    seller = models.ForeignKey(AutoSaloon, on_delete=models.CASCADE, related_name='discounts')
+    discounted_offers = models.ManyToManyField(SaloonCars, related_name='car_discount', blank=True)
+
+    def clean(self):
+        if self.start_time >= self.end_time:
+            raise ValidationError({'end_time': 'End time must be bigger then Start time'})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f'{self.seller}: {self.title}'
+

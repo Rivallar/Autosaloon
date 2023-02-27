@@ -9,7 +9,8 @@ django-countries = "*"
 django-filter = "*"
 psycopg2 = "*"
 pytest-django = "*"
-pytest-django-testing-postgresql = "*"
+pytest-factoryboy = "*"
+faker = "*"
 
 [dev-packages]
 
