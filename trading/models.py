@@ -3,11 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from django_countries.fields import CountryField
-
-from cars.models import Dealer, Auto, CommonFieldsParent, DealerCars, SoftDeleteMixin
-from trading.validators import check_characteristics_field, check_discount_field
-from trading.utils import find_cars_and_dealers
+from cars.models import Dealer, Auto, CommonFieldsParent, DealerCars, SoftDeleteMixin, AutoSaloon, SaloonCars
 
 
 # Create your models here.
@@ -43,46 +39,6 @@ class Offer(CommonFieldsParent, SoftDeleteMixin):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
-
-
-class AutoSaloon(CommonFieldsParent, SoftDeleteMixin):
-
-    """Represents all info about each auto-saloon"""
-
-    name = models.CharField(max_length=100, unique=True)
-
-    country = CountryField()
-    city = models.CharField(max_length=50)
-    address = models.CharField(max_length=256)
-
-    car_characteristics = models.JSONField(default=dict, validators=[check_characteristics_field])
-    car_models_to_trade = models.JSONField(blank=True, null=True)
-
-    balance = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0)])
-    
-    buyer_discounts = models.JSONField(default=dict, blank=True,
-        null=True, validators=[check_discount_field])
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        # to form "car_models_to_trade" field
-        self.car_models_to_trade = find_cars_and_dealers(self)
-        if not self.buyer_discounts:
-            self.buyer_discounts = {0: 1}
-        super().save(*args, **kwargs)
-
-
-class SaloonCars(models.Model):
-
-    """Cars available in an auto-saloon"""
-
-    saloon = models.ForeignKey(AutoSaloon, on_delete=models.CASCADE, related_name='cars_in_saloon')
-    car = models.ForeignKey(Auto, on_delete=models.CASCADE, related_name='saloons_selling')
-
-    quantity = models.PositiveSmallIntegerField(default=0)
-    car_price = models.DecimalField(max_digits=9, decimal_places=2, validators=[MinValueValidator(0)])
 
 
 class DealerToSaloonHistory(models.Model):
@@ -128,7 +84,6 @@ class DealerDiscount(CommonFieldsParent, SoftDeleteMixin):
         self.full_clean()
         super().save(*args, **kwargs)
 
-
     def __str__(self):
         return f'{self.seller}: {self.title}'
 
@@ -151,7 +106,6 @@ class SaloonDiscount(CommonFieldsParent, SoftDeleteMixin):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
-
 
     def __str__(self):
         return f'{self.seller}: {self.title}'
