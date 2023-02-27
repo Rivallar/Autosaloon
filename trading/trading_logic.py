@@ -1,20 +1,45 @@
-from decimal import Decimal
-from random import shuffle
+from django.db.models import Count
 
-from cars.models import DealerCars
-from trading.models import DealerToSaloonHistory, SaloonCars, SaloonToBuyerHistory
+from decimal import Decimal
+
+from cars.models import DealerCars, SaloonCars
+from cars.utils import apply_discount
+from trading.models import DealerToSaloonHistory, SaloonToBuyerHistory
 
 
 def cars_by_popularity(saloon):
 
-    """Sorts saloon cars according to their popularity. Currently, random."""
+    """Sorts saloon cars according to their popularity, based on trade history."""
 
-    car_models = list(saloon.car_models_to_trade.keys())
-    shuffle(car_models)
-    return car_models
+    cars_from_history = SaloonToBuyerHistory.objects.filter(saloon=saloon).values('car').annotate(
+        total=Count('car')).order_by('-total')
+    all_saloon_cars = set(int(key) for key in saloon.car_models_to_trade.keys())
+    car_priority = [item['car'] for item in cars_from_history]
+    cars_never_bought = set(car_priority) ^ all_saloon_cars
+    car_priority.extend(cars_never_bought)
+    return car_priority
 
 
-def saloon_buys_update_db(saloon, saloon_car_record, dealer_car_record):
+def look_for_better_discounts(saloon, const_dealer_price_discounted, car):
+    best_price = const_dealer_price_discounted
+    best_offer_rec = ''
+    all_offers = DealerCars.objects.filter(car=car)
+    for offer in all_offers:
+        discounts = offer.car_discount.filter(is_active=True, seller=offer.dealer)  # add time filters
+        if discounts:
+            final_price = apply_discount(offer.dealer, saloon, offer.car_price)
+            for discount in discounts:
+                final_price = final_price / Decimal(discount.discount).quantize(Decimal('0.01'))
+                if final_price < best_price:
+                    best_price = final_price.quantize(Decimal('0.01'))
+                    best_offer_rec = offer
+    if best_offer_rec:
+        return (best_offer_rec, best_price)
+    else:
+        return None
+
+
+def saloon_buys_update_db(saloon, saloon_car_record, dealer_car_record, deal_price):
 
     """Handles all db updates during buying from dealer process"""
 
@@ -25,14 +50,14 @@ def saloon_buys_update_db(saloon, saloon_car_record, dealer_car_record):
         saloon_car_record[0].car_price = saloon_price
         saloon_car_record[0].quantity += 1
         saloon_car_record[0].save()
-    saloon.balance -= dealer_car_record.car_price
+    saloon.balance -= deal_price
     saloon.save()
 
     DealerToSaloonHistory.objects.create(dealer=dealer_car_record.dealer, saloon=saloon, car=dealer_car_record.car,
-                                         deal_price=dealer_car_record.car_price)
+                                         deal_price=deal_price)
 
     message = f'Saloon {saloon.name} buys {dealer_car_record.car} from dealer {dealer_car_record.dealer}. ' \
-              f'Price is {dealer_car_record.car_price}'
+              f'Price is {deal_price}'
     print(message)
 
 
@@ -44,14 +69,26 @@ def saloon_buys_car(saloon):
 
     cars_priority = cars_by_popularity(saloon)
     for car in cars_priority:
-        saloon_car_record = SaloonCars.objects.filter(saloon=saloon, car__model_name=car)
-        if not saloon_car_record or saloon_car_record[0].quantity < 2:	# Only two cars in saloon to test logic
-            dealer_car_record = DealerCars.objects.get(dealer__name=saloon.car_models_to_trade[car],
-                                                       car__model_name=car)
-            if saloon.balance >= dealer_car_record.car_price:
-                saloon_buys_update_db(saloon, saloon_car_record, dealer_car_record)
+        print(saloon.car_models_to_trade)
+        saloon_car_record = SaloonCars.objects.filter(saloon=saloon, car=car)
+        if not saloon_car_record or saloon_car_record[0].quantity < 2:
+            try:
+                const_dealer = saloon.car_models_to_trade[f'{car}']['dealer_id']
+            except KeyError:
+                const_dealer = saloon.car_models_to_trade[car]['dealer_id']
+            dealer_car_record = DealerCars.objects.get(dealer=const_dealer, car=car)
+            const_dealer_price_discounted = apply_discount(dealer_car_record.dealer, saloon,
+                                                           dealer_car_record.car_price)
+
+            best_offer = look_for_better_discounts(saloon, const_dealer_price_discounted, car)
+            if not best_offer:
+                best_offer = (dealer_car_record, const_dealer_price_discounted)
+
+            if saloon.balance >= best_offer[1]:
+                saloon_buys_update_db(saloon, saloon_car_record, best_offer[0], best_offer[1])
                 break
             print(f"Can not  buy car {car}. Saloon has no money.")
+
         else:
             print(f'Too many cars {car} in saloon')
 
