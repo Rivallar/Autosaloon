@@ -7,7 +7,8 @@ def check_characteristics_field(field_value: dict):
 
 	"""Checks if dictionary keys are cars characteristics and their value
 	types"""
-
+	
+	
 	if type(field_value) is dict:
 		for key, value in field_value.items():
 			if not type(value) is list:
