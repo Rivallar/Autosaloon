@@ -12,6 +12,7 @@ redis = "*"
 pytest-django = "*"
 pytest-factoryboy = "*"
 faker = "*"
+celery = "*"
 
 [dev-packages]
 
