@@ -56,7 +56,7 @@ def find_cars_and_dealers(saloon):
     for car in cars:
         # dealer_offers = car.dealers_selling.all().order_by('car_price')
         dealer_offers = find_best_dealer(car, saloon)
-        if dealer_offers:
+        if dealer_offers[1]:
             best_dealer = dealer_offers[1]
             result[car.id] = {"car_model": car.model_name, "dealer_id": best_dealer.id, "dealer_name": best_dealer.name}
         else:
