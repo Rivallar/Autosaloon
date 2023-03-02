@@ -5,8 +5,13 @@ name = "pypi"
 
 [packages]
 django = "*"
+django-countries = "*"
+django-filter = "*"
 psycopg2 = "*"
 redis = "*"
+pytest-django = "*"
+pytest-factoryboy = "*"
+faker = "*"
 
 [dev-packages]
 

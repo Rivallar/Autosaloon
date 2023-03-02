@@ -40,6 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    
+    # 3rd party apps
+    'django_countries',
+    'django_filters',
+    
+    # my apps
+    'cars',
+    'trading',
 ]
 
 MIDDLEWARE = [
