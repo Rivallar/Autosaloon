@@ -76,6 +76,9 @@ def saloon_buys_car(saloon):
                 const_dealer = saloon.car_models_to_trade[f'{car}']['dealer_id']
             except KeyError:
                 const_dealer = saloon.car_models_to_trade[car]['dealer_id']
+            if not const_dealer:
+                print(f"Can not  buy car {car}. No one sells it.")
+                break
             dealer_car_record = DealerCars.objects.get(dealer=const_dealer, car=car)
             const_dealer_price_discounted = apply_discount(dealer_car_record.dealer, saloon,
                                                            dealer_car_record.car_price)
