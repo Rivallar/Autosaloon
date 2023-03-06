@@ -12,6 +12,10 @@ redis = "*"
 pytest-django = "*"
 pytest-factoryboy = "*"
 faker = "*"
+djangorestframework = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
+pyjwt = "==1.7.1"
 
 [dev-packages]
 
