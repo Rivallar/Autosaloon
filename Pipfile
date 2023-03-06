@@ -16,6 +16,7 @@ djangorestframework = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 pyjwt = "==1.7.1"
+drf-yasg = "*"
 
 [dev-packages]
 

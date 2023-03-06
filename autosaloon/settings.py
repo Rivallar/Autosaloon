@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'djoser',
+    'drf_yasg',
     
     
     # my apps
@@ -88,6 +89,8 @@ REST_FRAMEWORK = {
 		 'rest_framework_simplejwt.authentication.JWTAuthentication',
 		 'rest_framework.authentication.SessionAuthentication',
 		 ),
+	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+	'PAGE_SIZE': 10,
 	}
 
 WSGI_APPLICATION = 'autosaloon.wsgi.application'
