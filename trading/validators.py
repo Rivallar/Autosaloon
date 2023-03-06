@@ -7,27 +7,22 @@ def check_characteristics_field(field_value: dict):
 
 	"""Checks if dictionary keys are cars characteristics and their value
 	types"""
-
+	
+	from cars.models import Auto
+	
+	car_specs = {'frame': Auto.FrameChoices.values,
+				'segment': Auto.SegmentChoices.values,
+				'origin': Auto.OriginChoices.values,
+				'fuel': Auto.FuelChoices.values}
+	
 	if type(field_value) is dict:
 		for key, value in field_value.items():
 			if not type(value) is list:
 				raise ValidationError(f'"{value}" value must be a list')
-			if key == 'frame':
+			if key in car_specs.keys():
 				for item in value:
-					if item not in ['bus', 'microbus', 'minivan', 'sedan', 'pickup', 'universal', 'hatchback', 'other']:
-						raise ValidationError(f'Wrong value "{item}"')
-			elif key == 'segment':
-				for item in value:
-					if item not in ['A', 'B', 'C', 'D', 'E', 'F', 'S', 'M', 'J']:
-						raise ValidationError(f'Wrong value "{item}"')
-			elif key == 'origin':
-				for item in value:
-					if item not in ['Asia', 'Europe', 'America', 'other']:
-						raise ValidationError(f'Wrong value "{item}"')
-			elif key == 'fuel':
-				for item in value:
-					if item not in ['gas', 'electro', 'petrol', 'hybrid']:
-						raise ValidationError(f'Wrong value "{item}"')
+					if item not in car_specs[key]:
+						raise ValidationError(f'Wrong value "{item}"!')
 			else:
 				raise ValidationError(f'Wrong key "{key}"')
 	else:

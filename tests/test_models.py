@@ -37,4 +37,3 @@ def test_offer(profile_and_car_for_offer, max_price, validity):
 		"car_model": car_id
 	})
 	assert form.is_valid() == validity
-	
