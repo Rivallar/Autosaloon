@@ -18,6 +18,12 @@ djangorestframework-simplejwt = "*"
 pyjwt = "==1.7.1"
 drf-yasg = "*"
 
+celery = "*"
+typing-extensions = "*"
+
+pytest-mock = "*"
+
+
 [dev-packages]
 
 [requires]
