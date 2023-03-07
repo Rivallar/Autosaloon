@@ -1,6 +1,14 @@
-from django.urls import path
-from cars.views import AutoAPIView
+from django.urls import path, include
+from rest_framework import routers
 
-urlpatterns = [
-    path('autos/', AutoAPIView.as_view()),
-]
+from cars.views import CarsViewSet
+
+
+router = routers.DefaultRouter()
+router.register('', CarsViewSet)
+
+urlpatterns = router.urls
+
+#urlpatterns = [
+#    path('', AutoAPIView.as_view()),
+#]
