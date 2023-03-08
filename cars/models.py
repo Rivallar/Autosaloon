@@ -1,4 +1,5 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 from django.db import models
 
 from django_countries.fields import CountryField
@@ -101,6 +102,7 @@ class Dealer(CommonFieldsParent, SoftDeleteMixin):
 
     """Represents info about car dealers"""
 
+    admin = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='dealer_inst', blank=True, null=True)
     name = models.CharField(max_length=100, unique=True)
     about = models.TextField(blank=True)
     foundation_date = models.DateField()
@@ -137,7 +139,8 @@ class DealerCars(models.Model):
 class AutoSaloon(CommonFieldsParent, SoftDeleteMixin):
 
     """Represents all info about each auto-saloon"""
-
+    
+    admin = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='saloon_inst', blank=True, null=True)
     name = models.CharField(max_length=100, unique=True)
 
     country = CountryField()

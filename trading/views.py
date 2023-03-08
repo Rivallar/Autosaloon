@@ -7,8 +7,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from trading.models import Profile, Offer
-from trading.serializers import ProfileSerializer, OfferSerializer
+from cars.permissions import IsOwner
+from trading.models import Profile, Offer, DealerDiscount
+from trading.serializers import ProfileSerializer, OfferSerializer, DealerDiscountSerializer
 from trading.tasks import process_offer
 
 
@@ -36,8 +37,6 @@ class ProfileViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
 			raise ValidationError("Profile already exists!")
 		
 		
-		
-	
 class OfferViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 	
 	permission_classes = [permissions.IsAuthenticated]
@@ -55,3 +54,15 @@ class OfferViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 			return Response(serializer.data)
 		except:
 			raise ValidationError("Low balance!")
+
+
+class DealerDiscountViewSet(viewsets.ModelViewSet):
+	
+	permission_classes = [permissions.IsAuthenticated, IsOwner]
+	serializer_class = DealerDiscountSerializer
+	queryset = DealerDiscount.objects.all()
+
+	def list(self, request):
+		discounts = DealerDiscount.objects.filter(seller__admin=request.user)
+		serializer = DealerDiscountSerializer(discounts, many=True)
+		return Response(serializer.data)
