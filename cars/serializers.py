@@ -34,7 +34,7 @@ class DealerSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Dealer
-		fields = ['id', 'name', 'about', 'foundation_date', 'cars_sold', 'buyer_discounts', 'admin']
+		fields = ['id', 'is_active', 'name', 'about', 'foundation_date', 'cars_sold', 'buyer_discounts', 'admin']
 		read_only_fields = ('cars_sold', 'admin')
 
 

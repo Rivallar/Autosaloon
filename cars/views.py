@@ -31,7 +31,7 @@ class CarsViewSet(viewsets.ReadOnlyModelViewSet):
 		return Response(serializer.data)
 
 
-class DealerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
+class DealerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	queryset = Dealer.objects.all()
 	serializer_class = DealerSerializer
@@ -46,7 +46,12 @@ class DealerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Retri
 class DealerCarsViewSet(viewsets.ModelViewSet):
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	queryset = DealerCars.objects.all()
-	serializer_class = PostDealerCarsSerializer
+	serializer_class = DealerCarsSerializer
+
+	def get_serializer_class(self):
+		if self.action == "create":
+			return PostDealerCarsSerializer
+		return super().get_serializer_class()
 
 	def list(self, request):
 		cars = DealerCars.objects.filter(dealer__admin=request.user)
@@ -67,8 +72,9 @@ class DealerCarsViewSet(viewsets.ModelViewSet):
 		car.car_discount.add(discount_id)
 		return Response(DealerCarsSerializer(car).data)
 
-	@action(detail=True, methods=['post'], serializer_class=RemoveDealerDiscountSerializer)
-	def remove_discount(self, request, pk=None):
-		discounts = DealerCars.objects.get(pk=pk).car_discount.all()
-		print(discounts)
-		return Response({'response': 'We are here'})
+	@action(detail=True, methods=['delete'], serializer_class=RemoveDealerDiscountSerializer,
+			url_path=r'remove_discount/(?P<discount_id>\d+)')
+	def remove_discount(self, request, discount_id, pk=None):
+		dealercar = get_object_or_404(DealerCars, pk=pk, dealer__admin=request.user)
+		dealercar.car_discount.remove(discount_id)
+		return Response(DealerCarsSerializer(dealercar).data)

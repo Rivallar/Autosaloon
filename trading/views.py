@@ -75,6 +75,11 @@ class DealerDiscountViewSet(viewsets.ModelViewSet):
 
 	def perform_create(self, serializer):
 		dealer = self.request.user.dealer_inst.first()
-		serializer.save(seller=dealer)
-		return Response(serializer.data)
+		try:
+			serializer.save(seller=dealer)
+			return Response(serializer.data)
+		except:
+			raise ValidationError("Wrong input!")
+
+
 
