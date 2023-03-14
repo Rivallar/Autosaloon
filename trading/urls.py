@@ -7,10 +7,7 @@ from trading.views import ProfileViewSet, OfferViewSet, DealerDiscountViewSet
 router = routers.DefaultRouter()
 router.register('my_profile', ProfileViewSet, basename='profile')
 router.register('make_offer', OfferViewSet)
-router.register('discounts', DealerDiscountViewSet)
+router.register('dealer_discounts', DealerDiscountViewSet)
 
 urlpatterns = router.urls
 
-#urlpatterns = [
-#    path('', AutoAPIView.as_view()),
-#]

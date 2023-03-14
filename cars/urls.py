@@ -11,6 +11,3 @@ router.register('dealer_cars', DealerCarsViewSet)
 
 urlpatterns = router.urls
 
-#urlpatterns = [
-#    path('', AutoAPIView.as_view()),
-#]

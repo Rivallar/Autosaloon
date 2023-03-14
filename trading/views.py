@@ -8,8 +8,9 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from cars.permissions import IsOwner
+from cars.models import Dealer
 from trading.models import Profile, Offer, DealerDiscount
-from trading.serializers import ProfileSerializer, OfferSerializer, DealerDiscountSerializer
+from trading.serializers import ProfileSerializer, OfferSerializer, PostDealerDiscountSerializer, GetDealerDiscountSerializer
 from trading.tasks import process_offer
 
 
@@ -59,10 +60,21 @@ class OfferViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 class DealerDiscountViewSet(viewsets.ModelViewSet):
 	
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
-	serializer_class = DealerDiscountSerializer
+	serializer_class = PostDealerDiscountSerializer
 	queryset = DealerDiscount.objects.all()
 
 	def list(self, request):
 		discounts = DealerDiscount.objects.filter(seller__admin=request.user)
-		serializer = DealerDiscountSerializer(discounts, many=True)
+		serializer = GetDealerDiscountSerializer(discounts, many=True)
 		return Response(serializer.data)
+
+	def retrieve(self, request, pk):
+		discount = get_object_or_404(DealerDiscount, pk=pk)
+		serializer = GetDealerDiscountSerializer(discount)
+		return Response(serializer.data)
+
+	def perform_create(self, serializer):
+		dealer = self.request.user.dealer_inst.first()
+		serializer.save(seller=dealer)
+		return Response(serializer.data)
+
