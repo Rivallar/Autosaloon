@@ -9,8 +9,9 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from cars.permissions import IsOwner
 from cars.models import Dealer
-from trading.models import Profile, Offer, DealerDiscount
-from trading.serializers import ProfileSerializer, OfferSerializer, PostDealerDiscountSerializer, GetDealerDiscountSerializer
+from trading.models import Profile, Offer, DealerDiscount, SaloonDiscount
+from trading.serializers import ProfileSerializer, OfferSerializer, PostDealerDiscountSerializer, GetDealerDiscountSerializer,\
+	GetSaloonDiscountSerializer, PostSaloonDiscountSerializer
 from trading.tasks import process_offer
 
 
@@ -69,12 +70,12 @@ class DealerDiscountViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 	def retrieve(self, request, pk):
-		discount = get_object_or_404(DealerDiscount, pk=pk)
+		discount = get_object_or_404(DealerDiscount, pk=pk, seller__admin=request.user)
 		serializer = GetDealerDiscountSerializer(discount)
 		return Response(serializer.data)
 
 	def perform_create(self, serializer):
-		dealer = self.request.user.dealer_inst.first()
+		dealer = self.request.user.dealer_inst
 		try:
 			serializer.save(seller=dealer)
 			return Response(serializer.data)
@@ -82,4 +83,25 @@ class DealerDiscountViewSet(viewsets.ModelViewSet):
 			raise ValidationError("Wrong input!")
 
 
+class SaloonDiscountViewSet(viewsets.ModelViewSet):
+	permission_classes = [permissions.IsAuthenticated, IsOwner]
+	serializer_class = PostSaloonDiscountSerializer
+	queryset = SaloonDiscount.objects.all()
 
+	def list(self, request):
+		discounts = SaloonDiscount.objects.filter(seller__admin=request.user)
+		serializer = GetSaloonDiscountSerializer(discounts, many=True)
+		return Response(serializer.data)
+
+	def retrieve(self, request, pk):
+		discount = get_object_or_404(SaloonDiscount, pk=pk, seller__admin=request.user)
+		serializer = GetSaloonDiscountSerializer(discount)
+		return Response(serializer.data)
+
+	def perform_create(self, serializer):
+		saloon = self.request.user.saloon_inst
+		try:
+			serializer.save(seller=saloon)
+			return Response(serializer.data)
+		except:
+			raise ValidationError("Wrong input!")

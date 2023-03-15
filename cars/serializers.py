@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from cars.models import Auto, Dealer, DealerCars
+from cars.models import Auto, Dealer, DealerCars, AutoSaloon, SaloonCars
 
 
 class ShortAutoSerializer(serializers.ModelSerializer):
@@ -73,6 +73,7 @@ class NestedDealerCarsSerializer(serializers.ModelSerializer):
 
 	dealer = serializers.SerializerMethodField(read_only=True)
 	car = serializers.SerializerMethodField(read_only=True)
+
 	class Meta:
 		model = DealerCars
 		fields = ['id', 'dealer', 'car', 'car_price']
@@ -82,3 +83,56 @@ class NestedDealerCarsSerializer(serializers.ModelSerializer):
 
 	def get_car(self, obj):
 		return obj.car.model_name
+
+
+class AutoSaloonSerializer(serializers.ModelSerializer):
+
+	admin = AdminSerializer(read_only=True)
+
+	class Meta:
+		model = AutoSaloon
+		fields = ['id', 'is_active', 'name', 'country', 'city', 'address', 'car_characteristics', 'car_models_to_trade',
+				  'balance', 'buyer_discounts', 'admin']
+		read_only_fields = ('balance', 'admin')
+
+
+class NestedAutoSaloonSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = AutoSaloon
+		fields = ['id', 'name']
+
+
+class SaloonCarsSerializer(serializers.ModelSerializer):
+
+	saloon = NestedAutoSaloonSerializer(read_only=True)
+	car = NestedAutoSerializer(read_only=True)
+	discounts = serializers.SerializerMethodField()
+
+	class Meta:
+		model = SaloonCars
+		fields = fields = ['id', 'saloon', 'car', 'car_price', 'discounts']
+
+	def get_discounts(self, obj):
+		return obj.car_discount.all().values_list('id', 'title', 'discount')
+
+
+class NestedSaloonCarsSerializer(serializers.ModelSerializer):
+
+	saloon = serializers.SerializerMethodField(read_only=True)
+	car = serializers.SerializerMethodField(read_only=True)
+
+	class Meta:
+		model = SaloonCars
+		fields = ['id', 'saloon', 'car', 'car_price']
+
+	def get_saloon(self, obj):
+		return obj.saloon.name
+
+	def get_car(self, obj):
+		return obj.car.model_name
+
+
+class PostSaloonCarsSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = SaloonCars
+		exclude = ('saloon', )

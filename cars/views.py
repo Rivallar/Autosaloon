@@ -8,11 +8,12 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 from cars.filters import CarFilter
-from cars.models import Auto, Dealer, DealerCars
+from cars.models import Auto, Dealer, DealerCars, AutoSaloon, SaloonCars
 from cars.permissions import IsOwner 
-from cars.serializers import ShortAutoSerializer, FullAutoSerializer, DealerSerializer, DealerCarsSerializer, PostDealerCarsSerializer
+from cars.serializers import ShortAutoSerializer, FullAutoSerializer, DealerSerializer, DealerCarsSerializer,\
+	PostDealerCarsSerializer, AutoSaloonSerializer, SaloonCarsSerializer, PostSaloonCarsSerializer
 from trading.models import DealerDiscount
-from trading.serializers import AttachDealerDiscountSerializer, RemoveDealerDiscountSerializer
+from trading.serializers import AttachDealerDiscountSerializer,	AttachSaloonDiscountSerializer
 
 
 # Create your views here.
@@ -72,9 +73,61 @@ class DealerCarsViewSet(viewsets.ModelViewSet):
 		car.car_discount.add(discount_id)
 		return Response(DealerCarsSerializer(car).data)
 
-	@action(detail=True, methods=['delete'], serializer_class=RemoveDealerDiscountSerializer,
+	@action(detail=True, methods=['delete'],
 			url_path=r'remove_discount/(?P<discount_id>\d+)')
 	def remove_discount(self, request, discount_id, pk=None):
 		dealercar = get_object_or_404(DealerCars, pk=pk, dealer__admin=request.user)
 		dealercar.car_discount.remove(discount_id)
 		return Response(DealerCarsSerializer(dealercar).data)
+
+
+class AutoSaloonViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+					mixins.DestroyModelMixin):
+	permission_classes = [permissions.IsAuthenticated, IsOwner]
+	queryset = AutoSaloon.objects.all()
+	serializer_class = AutoSaloonSerializer
+
+	def list(self, request):
+		queryset = AutoSaloon.objects.all()
+		saloon = get_object_or_404(queryset, admin=request.user)
+		serializer = AutoSaloonSerializer(saloon)
+		return Response(serializer.data)
+
+
+class SaloonCarsViewSet(viewsets.ModelViewSet):
+	permission_classes = [permissions.IsAuthenticated, IsOwner]
+	queryset = SaloonCars.objects.all()
+
+	def get_serializer_class(self):
+		if self.action == "create":
+			return PostSaloonCarsSerializer
+		elif self.action == "add_discount":
+			return AttachSaloonDiscountSerializer
+		else:
+			return SaloonCarsSerializer
+
+	def list(self, request):
+		cars = SaloonCars.objects.filter(saloon__admin=request.user)
+		serializer = SaloonCarsSerializer(cars, many=True)
+		return Response(serializer.data)
+
+	def perform_create(self, serializer):
+		saloon = get_object_or_404(AutoSaloon, admin=self.request.user)
+		try:
+			return serializer.save(saloon=saloon)
+		except:
+			raise ValidationError("This car is already exists for this autosaloon")
+
+	@action(detail=True, methods=['post'])
+	def add_discount(self, request, pk=None):
+		car = self.get_object()
+		discount_id = request.data['discounts']
+		car.car_discount.add(discount_id)
+		return Response(SaloonCarsSerializer(car).data)
+
+	@action(detail=True, methods=['delete'],
+			url_path=r'remove_discount/(?P<discount_id>\d+)')
+	def remove_discount(self, request, discount_id, pk=None):
+		salooncar = get_object_or_404(SaloonCars, pk=pk, saloon__admin=request.user)
+		salooncar.car_discount.remove(discount_id)
+		return Response(SaloonCarsSerializer(salooncar).data)
