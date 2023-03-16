@@ -2,7 +2,9 @@ from decimal import Decimal
 import pytest
 from pytest_factoryboy import register
 from django.db import connections
+from rest_framework.test import APIClient, RequestsClient
 
+from django.contrib.auth.models import User
 
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -50,7 +52,8 @@ def django_db_setup():
 	settings.DATABASES['default'] = {
 		'ENGINE': 'django.db.backends.postgresql',
 		'HOST': 'localhost',
-		'NAME': 'postgres'
+		'NAME': 'postgres',
+		'ATOMIC_REQUESTS': False,
 	}
 
 
@@ -158,3 +161,9 @@ def customer_buys_update_db_setup(db, auto_factory, offer_factory, salooncars_fa
 def customer_buys_car_setup(db, offer_factory):
 	offer = offer_factory()
 	return offer
+
+
+@pytest.fixture
+def client():
+	client
+	return APIClient()

@@ -36,6 +36,7 @@ class DealerViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Retri
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	queryset = Dealer.objects.all()
 	serializer_class = DealerSerializer
+	authentication_classes = (JWTAuthentication,)
 	
 	def list(self, request):
 		queryset = Dealer.objects.all()
@@ -48,6 +49,7 @@ class DealerCarsViewSet(viewsets.ModelViewSet):
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	queryset = DealerCars.objects.all()
 	serializer_class = DealerCarsSerializer
+	authentication_classes = (JWTAuthentication,)
 
 	def get_serializer_class(self):
 		if self.action == "create":
@@ -86,6 +88,7 @@ class AutoSaloonViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.R
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	queryset = AutoSaloon.objects.all()
 	serializer_class = AutoSaloonSerializer
+	authentication_classes = (JWTAuthentication,)
 
 	def list(self, request):
 		queryset = AutoSaloon.objects.all()
@@ -97,6 +100,7 @@ class AutoSaloonViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.R
 class SaloonCarsViewSet(viewsets.ModelViewSet):
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	queryset = SaloonCars.objects.all()
+	authentication_classes = (JWTAuthentication,)
 
 	def get_serializer_class(self):
 		if self.action == "create":

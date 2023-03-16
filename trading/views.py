@@ -21,6 +21,7 @@ class ProfileViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
 
 	permission_classes = [permissions.IsAuthenticated]
 	serializer_class = ProfileSerializer
+	authentication_classes = (JWTAuthentication,)
 	
 	def get_queryset(self):
 		return Profile.objects.filter(user=self.request.user)
@@ -44,6 +45,7 @@ class OfferViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 	permission_classes = [permissions.IsAuthenticated]
 	serializer_class = OfferSerializer
 	queryset = Offer.objects.all()
+	authentication_classes = (JWTAuthentication,)
 	
 	def perform_create(self, serializer):
 		profile = self.request.user.profile
@@ -63,6 +65,7 @@ class DealerDiscountViewSet(viewsets.ModelViewSet):
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	serializer_class = PostDealerDiscountSerializer
 	queryset = DealerDiscount.objects.all()
+	authentication_classes = (JWTAuthentication,)
 
 	def list(self, request):
 		discounts = DealerDiscount.objects.filter(seller__admin=request.user)
@@ -87,6 +90,7 @@ class SaloonDiscountViewSet(viewsets.ModelViewSet):
 	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	serializer_class = PostSaloonDiscountSerializer
 	queryset = SaloonDiscount.objects.all()
+	authentication_classes = (JWTAuthentication,)
 
 	def list(self, request):
 		discounts = SaloonDiscount.objects.filter(seller__admin=request.user)
