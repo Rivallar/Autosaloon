@@ -7,7 +7,7 @@ import pytz
 
 from django.contrib.auth.models import User
 from cars.models import Auto, Dealer, DealerCars, SaloonCars
-from trading.models import AutoSaloon, Profile, Offer, DealerToSaloonHistory, SaloonToBuyerHistory, DealerDiscount
+from trading.models import AutoSaloon, Profile, Offer, DealerToSaloonHistory, SaloonToBuyerHistory, DealerDiscount, SaloonDiscount
 
 fake = Faker()
 utc = pytz.UTC
@@ -133,6 +133,20 @@ class DealerdiscountFactory(factory.django.DjangoModelFactory):
 	seller = factory.SubFactory(DealerFactory)
 	start_time = utc.localize(datetime.datetime.now() - datetime.timedelta(days=1))
 	end_time = utc.localize(datetime.datetime.now() + datetime.timedelta(days=1))
+
+
+class SaloondiscountFactory(factory.django.DjangoModelFactory):
+	class Meta:
+		model = SaloonDiscount
+
+	title = fake.name()
+	description = fake.text()
+	discount = 1.1
+
+	seller = factory.SubFactory(AutosaloonFactory)
+	start_time = utc.localize(datetime.datetime.now() - datetime.timedelta(days=1))
+	end_time = utc.localize(datetime.datetime.now() + datetime.timedelta(days=1))
+
 
 class SaloontobuyerhistoryFactory(factory.django.DjangoModelFactory):
 	

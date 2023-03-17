@@ -12,7 +12,7 @@ from cars.models import Auto, Dealer, DealerCars, AutoSaloon, SaloonCars
 from cars.permissions import IsOwner 
 from cars.serializers import ShortAutoSerializer, FullAutoSerializer, DealerSerializer, DealerCarsSerializer,\
 	PostDealerCarsSerializer, AutoSaloonSerializer, SaloonCarsSerializer, PostSaloonCarsSerializer
-from trading.models import DealerDiscount
+from trading.models import DealerDiscount, SaloonDiscount
 from trading.serializers import AttachDealerDiscountSerializer,	AttachSaloonDiscountSerializer
 
 
@@ -63,6 +63,7 @@ class DealerCarsViewSet(viewsets.ModelViewSet):
 
 	def perform_create(self, serializer):
 		dealer = get_object_or_404(Dealer, admin=self.request.user)
+		print(self.request.user)
 		try:
 			return serializer.save(dealer=dealer)
 		except:
@@ -72,6 +73,7 @@ class DealerCarsViewSet(viewsets.ModelViewSet):
 	def add_discount(self, request, pk=None):
 		car = self.get_object()
 		discount_id = request.data['discounts']
+		get_object_or_404(DealerDiscount, id=discount_id, seller__admin=request.user)
 		car.car_discount.add(discount_id)
 		return Response(DealerCarsSerializer(car).data)
 
@@ -111,7 +113,8 @@ class SaloonCarsViewSet(viewsets.ModelViewSet):
 			return SaloonCarsSerializer
 
 	def list(self, request):
-		cars = SaloonCars.objects.filter(saloon__admin=request.user)
+		saloon = get_object_or_404(AutoSaloon, admin=self.request.user)
+		cars = SaloonCars.objects.filter(saloon=saloon)
 		serializer = SaloonCarsSerializer(cars, many=True)
 		return Response(serializer.data)
 
@@ -126,6 +129,7 @@ class SaloonCarsViewSet(viewsets.ModelViewSet):
 	def add_discount(self, request, pk=None):
 		car = self.get_object()
 		discount_id = request.data['discounts']
+		get_object_or_404(SaloonDiscount, id=discount_id, seller__admin=request.user) 	# check if discount belongs to correct saloon
 		car.car_discount.add(discount_id)
 		return Response(SaloonCarsSerializer(car).data)
 
