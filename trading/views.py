@@ -19,7 +19,7 @@ from trading.tasks import process_offer
 class ProfileViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
 	mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin):
 
-	permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	serializer_class = ProfileSerializer
 	authentication_classes = (JWTAuthentication,)
 	
@@ -48,13 +48,14 @@ class OfferViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 	authentication_classes = (JWTAuthentication,)
 	
 	def perform_create(self, serializer):
-		profile = self.request.user.profile
+		profile = get_object_or_404(Profile, user=self.request.user)
 		try:
 			offer = serializer.save(profile=profile)
-			try:
-				process_offer.delay(offer.id)
-			except:
-				process_offer(offer.id)
+			process_offer(offer.id)
+			# try:
+			# 	process_offer.delay(offer.id)
+			# except:
+			# 	process_offer(offer.id)
 			return Response(serializer.data)
 		except:
 			raise ValidationError("Low balance!")

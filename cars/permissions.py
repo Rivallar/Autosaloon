@@ -13,5 +13,7 @@ class IsOwner(permissions.BasePermission):
 			return obj.saloon.admin == request.user
 		elif obj._meta.model_name in ('dealerdiscount', 'saloondiscount'):
 			return obj.seller.admin == request.user
+		elif obj._meta.model_name == 'profile':
+			return obj.user == request.user
 		else:
 			return obj.admin == request.user

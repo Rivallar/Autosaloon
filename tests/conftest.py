@@ -165,31 +165,11 @@ def customer_buys_car_setup(db, offer_factory):
 	return offer
 
 
-# api fixtures
-
-
 @pytest.fixture
 def client():
 	return APIClient()
 
-
-@pytest.fixture
-def setup_cars_autos(db, auto_factory):
-	for i in 'ABC':
-		car = auto_factory(model_name=i)
-	return car.id
-
-
-@pytest.fixture
-def setup_cars_saloon_list(db, user_factory, autosaloon_factory):
-	user = user_factory()
-	wrong_user = user_factory(username="wrong")
-	for i in 'ABC':
-		saloon = autosaloon_factory(name=i)
-	saloon.admin = user
-	saloon.save()
-	return saloon, wrong_user
-
+# Autosaloon api fixtures
 
 @pytest.fixture
 def setup_cars_saloon_patch(db, user_factory, autosaloon_factory):
@@ -255,3 +235,44 @@ def setup_cars_saloon_cars_remove_discount(db, user_factory, saloondiscount_fact
 	return admin_user, wrong_user, saloon_car, discount, wrong_discount
 
 
+# user api fixtures
+
+@pytest.fixture
+def setup_cars_autos(db, auto_factory):
+	for i in 'ABC':
+		car = auto_factory(model_name=i)
+	return car.id
+
+
+@pytest.fixture
+def setup_cars_saloon_list(db, user_factory, autosaloon_factory):
+	user = user_factory()
+	wrong_user = user_factory(username="wrong")
+	for i in 'ABC':
+		saloon = autosaloon_factory(name=i)
+	saloon.admin = user
+	saloon.save()
+	return saloon, wrong_user
+
+
+@pytest.fixture
+def setup_trading_profile_list(db, user_factory, profile_factory):
+	no_profile_user = user_factory(username="no_profile")
+	profile = profile_factory()
+	wrong_profile = profile_factory(user__username='wrong_user')
+	return profile, wrong_profile, no_profile_user
+
+
+@pytest.fixture
+def setup_trading_profile_post(db, user_factory, profile_factory):
+	no_profile_user = user_factory(username="no_profile")
+	profile = profile_factory()
+	return no_profile_user, profile
+
+
+@pytest.fixture
+def setup_trading_make_offer(db, profile_factory, salooncars_factory, user_factory):
+	profile = profile_factory()
+	no_profile_user = user_factory(username="no_profile")
+	record = salooncars_factory()
+	return profile, record, no_profile_user

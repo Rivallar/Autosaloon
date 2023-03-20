@@ -14,36 +14,46 @@ def client_login(client, user_type, correct_user, wrong_user):
     return client
 
 
+def make_endpoint(base_url, endpoint_type, corr_value, wrong_value=None, wrong_id_value=None):
+
+    """Adds correct/wrong/non-existent ids to the end of url"""
+
+    url = base_url
+    if endpoint_type == "correct":
+        url += f'{corr_value}/'
+    elif endpoint_type == "wrong":
+        url += f'{wrong_value}/'
+    elif endpoint_type == "wrong_id":
+        url += f'{wrong_id_value}/'
+    return url
+
+
 @pytest.mark.parametrize(
     "user_type, endpoint_type, validity",
     [
         ('correct', 'list', 200),     # owner of saloon
         ('unauthenticated', 'list', 401),     # unauthenticated user
         ('wrong', 'list', 404),     # unauthenticated user
-        ('correct', 'retr', 200),     # owner of saloon
-        ('unauthenticated', 'retr', 401),     # unauthenticated user
-        ('wrong', 'retr', 403),     # unauthenticated user
-        ('correct', 'retr_wrong_id', 404),  # wrong saloon_id
-        ('unauthenticated', 'retr_wrong_id', 401),  # wrong saloon_id
-        ('wrong', 'retr_wrong_id', 404),  # wrong saloon_id
-        ('correct', 'retr_id_other_saloon', 403),  # other saloon_id
-        ('unauthenticated', 'retr_id_other_saloon', 401),  # other saloon_id
-        ('wrong', 'retr_id_other_saloon', 403),  # other saloon_id
+        ('correct', 'correct', 200),     # owner of saloon
+        ('unauthenticated', 'correct', 401),     # unauthenticated user
+        ('wrong', 'correct', 403),     # unauthenticated user
+        ('correct', 'wrong', 404),  # wrong saloon_id
+        ('unauthenticated', 'wrong', 401),  # wrong saloon_id
+        ('wrong', 'wrong', 404),  # wrong saloon_id
+        ('correct', 'wrong_id', 403),  # other saloon_id
+        ('unauthenticated', 'wrong_id', 401),  # other saloon_id
+        ('wrong', 'wrong_id', 403),  # other saloon_id
     ])
 def test_cars_saloon_list_and_retrieve(client, setup_cars_saloon_list, user_type, endpoint_type, validity):
     saloon, wrong_user = setup_cars_saloon_list
 
     client = client_login(client, user_type, saloon.admin, wrong_user)
 
-    url = 'http://localhost:8000/cars/autosaloon/'
-    if endpoint_type == 'retr':
-        url += f'{saloon.id}/'
-    elif endpoint_type == 'retr_wrong_id':
-        url += f'{999999999}/'
-    elif endpoint_type == 'retr_id_other_saloon':
-        url += f'{saloon.id - 1}/'
+    base_url = 'http://localhost:8000/cars/autosaloon/'
+    url = make_endpoint(base_url, endpoint_type, saloon.id, 999999999, saloon.id - 1)
+
     response = client.get(url)
-    print(response)
+
     assert response.status_code == validity
     if validity == 200:
         response = response.json()
@@ -72,17 +82,13 @@ def test_cars_saloon_patch(client, setup_cars_saloon_patch, user_type, id_type, 
 
     client_login(client, user_type, admin, wrong_user)
 
+    base_url = f'http://localhost:8000/cars/autosaloon/'
+    url = make_endpoint(base_url, id_type, saloon.id, 999999999, saloon.id + 1)
 
-    url = f'http://localhost:8000/cars/autosaloon/'
-    if id_type == 'correct':
-        url += f'{saloon.id}/'
-    elif id_type == 'wrong_id':
-        url += f'{saloon.id + 1}/'
-    else:
-        url += f'999999999/'
     data = {'name': 'new_name', 'is_active': False, 'country': 'AZ', "car_characteristics": {
         "origin": ["Europe"]}, "buyer_discounts": {"0": 1, "5": 1.1}, 'balance': 500, 'admin': 1}
     response = client.patch(url, data=data, format='json')
+
     assert response.status_code == validity
     if response.status_code == 200:
         saloon = AutoSaloon.objects.get(id=saloon.id)
@@ -111,11 +117,9 @@ def test_cars_saloon_delete(client, setup_cars_saloon_patch, user_type, id_type,
 
     client_login(client, user_type, saloon.admin, wrong_user)
 
-    url = f'http://localhost:8000/cars/autosaloon/'
-    if id_type == 'correct':
-        url += f'{saloon.id}/'
-    else:
-        url += f'999999999/'
+    base_url = f'http://localhost:8000/cars/autosaloon/'
+    url = make_endpoint(base_url, id_type, saloon.id, 999999999, saloon.id + 1)
+
     response = client.delete(url)
     assert response.status_code == validity
     if response.status_code == 204:
@@ -162,13 +166,8 @@ def test_cars_saloon_cars_retrieve(client, setup_cars_saloon_cars_list, user_typ
 
     client_login(client, user_type, saloon.admin, wrong_user)
 
-    url = f'http://localhost:8000/cars/saloon_cars/'
-    if car_id == 'correct':
-        url += f'{saloon_car.id}/'
-    elif car_id == 'wrong':
-        url += '999999999/'
-    else:
-        url += f'{saloon_car.id - 5}/'
+    base_url = f'http://localhost:8000/cars/saloon_cars/'
+    url = make_endpoint(base_url, car_id, saloon_car.id, 999999999, saloon_car.id - 5)
 
     response = client.get(url)
     assert response.status_code == validity
@@ -240,6 +239,7 @@ def test_cars_saloon_cars_add_discount(client, setup_cars_saloon_cars_add_discou
         data = {'discounts': discount.id}
     else:
         data = {'discounts': wrong_discount.id}
+
     response = client.post(url, data=data)
     assert response.status_code == valid_response
     if response.status_code == 200:
@@ -263,11 +263,8 @@ def test_cars_saloon_cars_remove_discount(client, setup_cars_saloon_cars_remove_
 
     client_login(client, user_type, admin_user, wrong_user)
 
-    url = f'http://localhost:8000/cars/saloon_cars/{saloon_car.id}/remove_discount/'
-    if discount_type == 'correct':
-        url += f'{discount.id}/'
-    else:
-        url += f'{wrong_discount.id}/'
+    base_url = f'http://localhost:8000/cars/saloon_cars/{saloon_car.id}/remove_discount/'
+    url = make_endpoint(base_url, discount_type, discount.id, wrong_discount.id, wrong_discount.id)
 
     response = client.delete(url)
     assert response.status_code == valid_response
