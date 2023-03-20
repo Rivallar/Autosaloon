@@ -1,5 +1,5 @@
 from autosaloon.celery import app
-
+from celery import shared_task
 from cars.models import AutoSaloon
 from trading.models import Offer
 from trading.trading_logic import saloon_buys_car, customer_buys_car

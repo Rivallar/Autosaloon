@@ -276,3 +276,43 @@ def setup_trading_make_offer(db, profile_factory, salooncars_factory, user_facto
 	no_profile_user = user_factory(username="no_profile")
 	record = salooncars_factory()
 	return profile, record, no_profile_user
+
+
+@pytest.fixture
+def setup_trading_saloon_discounts_list_retrieve(db, autosaloon_factory, salooncars_factory, user_factory, saloondiscount_factory):
+	saloon = autosaloon_factory(name='testsaloon')
+	salooncar_rec = salooncars_factory(saloon=saloon)
+
+	admin = user_factory()
+	wrong_user = user_factory(username="wrong_user")
+	saloon.admin = admin
+	saloon.save()
+
+	discount = saloondiscount_factory(seller=saloon)
+	salooncar_rec.car_discount.add(discount.id)
+
+	saloondiscount_factory()
+
+	return admin, wrong_user, discount
+
+
+@pytest.fixture
+def setup_trading_saloon_discounts_post(db, user_factory, salooncars_factory):
+	admin = user_factory(username='saloon_admin')
+	wrong_user = user_factory()
+	salooncar_rec = salooncars_factory()
+	saloon = salooncar_rec.saloon
+	saloon.admin = admin
+	saloon.save()
+	return saloon, wrong_user, salooncar_rec
+
+
+@pytest.fixture
+def setup_trading_saloon_discounts_delete(db, user_factory, saloondiscount_factory):
+	discount = saloondiscount_factory()
+	saloon = discount.seller
+	admin = user_factory(username='saloon_admin')
+	wrong_user = user_factory()
+	saloon.admin = admin
+	saloon.save()
+	return admin, wrong_user, discount

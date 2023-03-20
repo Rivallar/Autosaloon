@@ -1,6 +1,10 @@
 import pytest
+import datetime
 
 from cars.models import AutoSaloon, SaloonCars
+from trading.models import SaloonDiscount
+
+pytestmark = pytest.mark.django_db
 
 
 def client_login(client, user_type, correct_user, wrong_user):
@@ -270,3 +274,118 @@ def test_cars_saloon_cars_remove_discount(client, setup_cars_saloon_cars_remove_
     assert response.status_code == valid_response
     saloon_car = SaloonCars.objects.get(id=saloon_car.id)
     assert saloon_car.car_discount.all().count() == valid_count
+
+
+@pytest.mark.parametrize(
+    "user_type, valid_response",
+    [
+        ('correct', 200),
+        ('unauthorized', 401),
+        ('wrong', 404),
+    ])
+def test_trading_saloon_discounts_list(client, setup_trading_saloon_discounts_list_retrieve, user_type, valid_response):
+    admin, wrong_user, discount = setup_trading_saloon_discounts_list_retrieve
+    client_login(client, user_type, admin, wrong_user)
+    url = 'http://localhost:8000/trading/saloon_discounts/'
+    response = client.get(url)
+    assert response.status_code == valid_response
+    if response.status_code == 200:
+        response = response.json()
+        assert len(response) == 1
+        assert len(response[0]['discounted_offers']) == 1
+        assert response[0]['seller']['name'] == discount.seller.name
+
+
+@pytest.mark.parametrize(
+    "user_type, id_type, valid_response",
+    [
+        ('correct', 'correct', 200),
+        ('unauthorized', 'correct', 401),
+        ('wrong', 'correct', 404),
+        ('correct', 'wrong', 404),
+        ('unauthorized', 'wrong', 401),
+        ('wrong', 'wrong', 404),
+        ('correct', 'wrong_id', 404),
+        ('unauthorized', 'wrong_id', 401),
+        ('wrong', 'wrong_id', 404),
+    ])
+def test_trading_saloon_discounts_retrieve(client, setup_trading_saloon_discounts_list_retrieve, user_type, id_type, valid_response):
+    admin, wrong_user, discount = setup_trading_saloon_discounts_list_retrieve
+    client_login(client, user_type, admin, wrong_user)
+    base_url = 'http://localhost:8000/trading/saloon_discounts/'
+    url = make_endpoint(base_url, id_type, discount.id, 999999, discount.id + 1)
+    response = client.get(url)
+    assert response.status_code == valid_response
+    if response.status_code == 200:
+        response = response.json()
+        assert len(response['discounted_offers']) == 1
+        assert response['seller']['name'] == discount.seller.name
+
+
+@pytest.mark.parametrize(
+    "user_type, data_type, valid_response",
+    [
+        ('correct', 'correct', 201),
+        ('wrong', 'correct', 404),
+        ('unauthorized', 'correct', 401),
+        ('correct', 'wrong', 400),          # data won`t pass validation
+    ])
+@pytest.mark.django_db
+def test_trading_saloon_discounts_post(client, setup_trading_saloon_discounts_post, user_type, data_type, valid_response):
+    saloon, wrong_user, salooncar_rec = setup_trading_saloon_discounts_post
+    client_login(client, user_type, saloon.admin, wrong_user)
+    url = 'http://localhost:8000/trading/saloon_discounts/'
+    start_time = datetime.datetime.now()
+    if data_type == "correct":
+        end_time = start_time + datetime.timedelta(days=5)
+    else:
+        end_time = start_time - datetime.timedelta(days=5)
+    data = {'title': 'testtitle', 'description': 'testdescription', 'discount': 1.2,
+            'start_time': start_time, 'end_time': end_time, 'discounted_offers': [salooncar_rec.id]
+            }
+    response = client.post(url, data=data)
+    assert response.status_code == valid_response
+    if response.status_code == 201:
+        discount = SaloonDiscount.objects.last()
+        assert discount.title == data['title']
+        assert discount.description == data['description']
+        assert list(discount.discounted_offers.all()) == [salooncar_rec]
+
+
+@pytest.mark.parametrize(
+    "user_type, valid_response, valid_status",
+    [
+        ('correct', 204, False),
+        ('wrong', 403, True),
+        ('unauthorized', 401, True),
+    ])
+def test_trading_saloon_discounts_delete(client, setup_trading_saloon_discounts_delete, user_type, valid_response, valid_status):
+    admin, wrong_user, discount = setup_trading_saloon_discounts_delete
+    client_login(client, user_type, admin, wrong_user)
+    url = f'http://localhost:8000/trading/saloon_discounts/{discount.id}/'
+    response = client.delete(url)
+    print(response.status_code)
+    assert response.status_code == valid_response
+    assert SaloonDiscount.objects.get(id=discount.id).is_active == valid_status
+
+
+@pytest.mark.parametrize(
+    "user_type, valid_response, valid_status",
+    [
+        ('correct', 200, False),
+        ('wrong', 403, True),
+        ('unauthorized', 401, True),
+    ])
+def test_trading_saloon_discounts_patch(client, setup_trading_saloon_discounts_delete, user_type, valid_response, valid_status):
+    admin, wrong_user, discount = setup_trading_saloon_discounts_delete
+    url = f'http://localhost:8000/trading/saloon_discounts/{discount.id}/'
+    client_login(client, user_type, admin, wrong_user)
+    data = {'is_active': False, 'title': 'new_title', 'description': 'new_description', 'discount': 2}
+    response = client.patch(url, data=data)
+    assert response.status_code == valid_response
+    if response.status_code == 200:
+        discount = SaloonDiscount.objects.get(id=discount.id)
+        assert discount.title == data['title']
+        assert discount.description == data['description']
+        assert discount.discount == data['discount']
+        assert discount.is_active == valid_status
