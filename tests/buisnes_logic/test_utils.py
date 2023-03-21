@@ -1,9 +1,8 @@
 from decimal import Decimal
 import pytest
 
-from cars.models import DealerCars
 from cars.utils import apply_discount, find_best_dealer, find_cars_and_dealers
-from trading.models import DealerToSaloonHistory
+
 
 @pytest.mark.parametrize(
 	"n_trades, validity",

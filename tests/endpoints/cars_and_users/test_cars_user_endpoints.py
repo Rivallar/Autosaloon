@@ -1,11 +1,10 @@
 import datetime
 from decimal import Decimal
-import time
 
 import pytest
 
 from cars.models import Auto
-from tests.test_saloon_endpoints import client_login, make_endpoint
+from tests.endpoints.utils import client_login, make_endpoint
 from trading.models import Profile, Offer
 
 
@@ -123,12 +122,12 @@ def test_trading_profile_patch(client, setup_trading_profile_list, user_type, id
     "user_type, offer_price, car_type, validity",
     [
         ('correct', Decimal(20000), 'correct', 201),    # all is ok
-        #('correct', Decimal(20000), 'wrong', 400),      # car does not exist
-        #('correct', Decimal(40000), 'correct', 400),    # profile balance lower then offer price
-        #('unauthorized', Decimal(20000), 'correct', 401),   # unauthorized user
-        #('wrong', Decimal(20000), 'correct', 404),  # a user without a profile
+        ('correct', Decimal(20000), 'wrong', 400),      # car does not exist
+        ('correct', Decimal(40000), 'correct', 400),    # profile balance lower then offer price
+        ('unauthorized', Decimal(20000), 'correct', 401),   # unauthorized user
+        ('wrong', Decimal(20000), 'correct', 404),  # a user without a profile
     ])
-def test_trading_make_offer(client, setup_trading_make_offer, user_type, offer_price, car_type, validity):
+def test_trading_make_offer(client, celery_app, setup_trading_make_offer, user_type, offer_price, car_type, validity):
     profile, record, no_profile_user = setup_trading_make_offer
     client_login(client, user_type, profile.user, no_profile_user)
     url = 'http://localhost:8000/trading/make_offer/'
@@ -141,4 +140,4 @@ def test_trading_make_offer(client, setup_trading_make_offer, user_type, offer_p
     if response.status_code == 201:
         offer = Offer.objects.last()
 
-        assert offer.is_active == False
+        assert not offer.is_active
