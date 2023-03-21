@@ -21,3 +21,8 @@ def make_endpoint(base_url, endpoint_type, corr_value, wrong_value=None, wrong_i
     elif endpoint_type == "wrong_id":
         url += f'{wrong_id_value}/'
     return url
+
+
+def set_admin(user, inst):
+    inst.admin = user
+    inst.save()

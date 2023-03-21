@@ -57,7 +57,8 @@ class DealerCarsViewSet(viewsets.ModelViewSet):
 		return super().get_serializer_class()
 
 	def list(self, request):
-		cars = DealerCars.objects.filter(dealer__admin=request.user)
+		dealer = get_object_or_404(Dealer, admin=self.request.user)
+		cars = DealerCars.objects.filter(dealer=dealer)
 		serializer = DealerCarsSerializer(cars, many=True)
 		return Response(serializer.data)
 

@@ -43,7 +43,7 @@ class GetDealerDiscountSerializer(serializers.ModelSerializer):
 class PostDealerDiscountSerializer(serializers.ModelSerializer):
 
 	seller = NestedDealerSerializer(read_only=True)
-	discounted_offers = DealerFilteredPrimaryKeyRelatedField(queryset=DealerCars.objects.all(), many=True)
+	discounted_offers = serializers.PrimaryKeyRelatedField(queryset=DealerCars.objects.all(), many=True)
 
 	class Meta:
 		model = DealerDiscount
@@ -62,7 +62,7 @@ class DealerDiscountFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelated
 
 
 class AttachDealerDiscountSerializer(serializers.Serializer):
-	discounts = DealerDiscountFilteredPrimaryKeyRelatedField(queryset=DealerDiscount.objects.all(), many=True)
+	discounts = serializers.PrimaryKeyRelatedField(queryset=DealerDiscount.objects.all(), many=True)
 
 
 # class RemoveDealerDiscountFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
