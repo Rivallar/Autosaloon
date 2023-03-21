@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     
     # 3rd party apps
+    'debug_toolbar',
     'django_countries',
     'django_filters',
     'rest_framework',
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -228,3 +230,10 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+
+#Debug_toolbar
+
+# INTERNAL_IPS = [
+#     '127.0.0.1',
+#     ]
