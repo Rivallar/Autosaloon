@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from cars.permissions import IsOwner
-from cars.models import Dealer
+from cars.models import Dealer, AutoSaloon
 from trading.models import Profile, Offer, DealerDiscount, SaloonDiscount
 from trading.serializers import ProfileSerializer, OfferSerializer, PostDealerDiscountSerializer, GetDealerDiscountSerializer,\
 	GetSaloonDiscountSerializer, PostSaloonDiscountSerializer
@@ -19,7 +19,7 @@ from trading.tasks import process_offer
 class ProfileViewSet(viewsets.GenericViewSet, mixins.ListModelMixin,
 	mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin):
 
-	permission_classes = [permissions.IsAuthenticated]
+	permission_classes = [permissions.IsAuthenticated, IsOwner]
 	serializer_class = ProfileSerializer
 	authentication_classes = (JWTAuthentication,)
 	
@@ -48,9 +48,10 @@ class OfferViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
 	authentication_classes = (JWTAuthentication,)
 	
 	def perform_create(self, serializer):
-		profile = self.request.user.profile
+		profile = get_object_or_404(Profile, user=self.request.user)
 		try:
 			offer = serializer.save(profile=profile)
+			#process_offer(offer.id)
 			try:
 				process_offer.delay(offer.id)
 			except:
@@ -68,7 +69,8 @@ class DealerDiscountViewSet(viewsets.ModelViewSet):
 	authentication_classes = (JWTAuthentication,)
 
 	def list(self, request):
-		discounts = DealerDiscount.objects.filter(seller__admin=request.user)
+		dealer = get_object_or_404(Dealer, admin=request.user)
+		discounts = DealerDiscount.objects.filter(seller=dealer)
 		serializer = GetDealerDiscountSerializer(discounts, many=True)
 		return Response(serializer.data)
 
@@ -78,7 +80,7 @@ class DealerDiscountViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 	def perform_create(self, serializer):
-		dealer = self.request.user.dealer_inst
+		dealer = get_object_or_404(Dealer, admin=self.request.user)
 		try:
 			serializer.save(seller=dealer)
 			return Response(serializer.data)
@@ -93,7 +95,8 @@ class SaloonDiscountViewSet(viewsets.ModelViewSet):
 	authentication_classes = (JWTAuthentication,)
 
 	def list(self, request):
-		discounts = SaloonDiscount.objects.filter(seller__admin=request.user)
+		saloon = get_object_or_404(AutoSaloon, admin=request.user)
+		discounts = SaloonDiscount.objects.filter(seller=saloon)
 		serializer = GetSaloonDiscountSerializer(discounts, many=True)
 		return Response(serializer.data)
 
@@ -103,7 +106,7 @@ class SaloonDiscountViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 	def perform_create(self, serializer):
-		saloon = self.request.user.saloon_inst
+		saloon = get_object_or_404(AutoSaloon, admin=self.request.user)
 		try:
 			serializer.save(seller=saloon)
 			return Response(serializer.data)

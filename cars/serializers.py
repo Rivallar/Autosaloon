@@ -110,7 +110,7 @@ class SaloonCarsSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = SaloonCars
-		fields = fields = ['id', 'saloon', 'car', 'car_price', 'discounts']
+		fields = ['id', 'saloon', 'car', 'car_price', 'quantity', 'discounts']
 
 	def get_discounts(self, obj):
 		return obj.car_discount.all().values_list('id', 'title', 'discount')

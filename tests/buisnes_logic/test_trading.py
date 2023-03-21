@@ -3,11 +3,12 @@ from decimal import Decimal
 import pytest
 import pytz
 
-from cars.models import Dealer, DealerCars, AutoSaloon, SaloonCars
+from cars.models import Dealer, AutoSaloon, SaloonCars
 from trading.models import SaloonToBuyerHistory, DealerToSaloonHistory, Offer, Profile
 from trading.trading_logic import cars_by_popularity, look_for_better_discounts, saloon_buys_update_db, saloon_buys_car, find_best_offer, customer_buys_update_db, customer_buys_car
 
 utc = pytz.UTC
+
 
 @pytest.mark.parametrize(
 	"hist_rec, validity",
@@ -18,7 +19,7 @@ utc = pytz.UTC
 		({}, ''),			# no cars sold yet
 	],)
 @pytest.mark.django_db
-def test_cars_by_popularity(cars_by_popularity_setup,saloontobuyerhistory_factory, hist_rec, validity):
+def test_cars_by_popularity(cars_by_popularity_setup, saloontobuyerhistory_factory, hist_rec, validity):
 	saloon, profile, cars_dict = cars_by_popularity_setup
 	
 	for key, value in hist_rec.items():

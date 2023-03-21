@@ -43,7 +43,7 @@ class GetDealerDiscountSerializer(serializers.ModelSerializer):
 class PostDealerDiscountSerializer(serializers.ModelSerializer):
 
 	seller = NestedDealerSerializer(read_only=True)
-	discounted_offers = DealerFilteredPrimaryKeyRelatedField(queryset=DealerCars.objects.all(), many=True)
+	discounted_offers = serializers.PrimaryKeyRelatedField(queryset=DealerCars.objects.all(), many=True)
 
 	class Meta:
 		model = DealerDiscount
@@ -62,7 +62,7 @@ class DealerDiscountFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelated
 
 
 class AttachDealerDiscountSerializer(serializers.Serializer):
-	discounts = DealerDiscountFilteredPrimaryKeyRelatedField(queryset=DealerDiscount.objects.all(), many=True)
+	discounts = serializers.PrimaryKeyRelatedField(queryset=DealerDiscount.objects.all(), many=True)
 
 
 # class RemoveDealerDiscountFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
@@ -91,20 +91,20 @@ class GetSaloonDiscountSerializer(serializers.ModelSerializer):
 		read_only_fields = ('seller', )
 
 
-class SaloonFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
-	def get_queryset(self):
-		request = self.context.get('request', None)
-		queryset = super().get_queryset()
-		if not request or not queryset:
-			return None
-		saloon = AutoSaloon.objects.get(admin=request.user)
-		return queryset.filter(saloon=saloon)
+# class SaloonFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
+# 	def get_queryset(self):
+# 		request = self.context.get('request', None)
+# 		queryset = super().get_queryset()
+# 		if not request or not queryset:
+# 			return None
+# 		saloon = AutoSaloon.objects.get(admin=request.user)
+# 		return queryset.filter(saloon=saloon)
 
 
 class PostSaloonDiscountSerializer(serializers.ModelSerializer):
 
 	seller = NestedAutoSaloonSerializer(read_only=True)
-	discounted_offers = SaloonFilteredPrimaryKeyRelatedField(queryset=SaloonCars.objects.all(), many=True)
+	discounted_offers = serializers.PrimaryKeyRelatedField(queryset=SaloonCars.objects.all(), many=True)
 
 	class Meta:
 		model = SaloonDiscount
@@ -112,17 +112,17 @@ class PostSaloonDiscountSerializer(serializers.ModelSerializer):
 		read_only_fields = ('seller', )
 
 
-class SaloonDiscountFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
-
-	def get_queryset(self):
-		print('We are here')
-		request = self.context.get('request', None)
-		queryset = super().get_queryset()
-		if not request or not queryset:
-			return None
-		saloon = AutoSaloon.objects.get(admin=request.user)
-		return queryset.filter(seller=saloon)
+# class SaloonDiscountFilteredPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
+#
+# 	def get_queryset(self):
+# 		print('We are here')
+# 		request = self.context.get('request', None)
+# 		queryset = super().get_queryset()
+# 		if not request or not queryset:
+# 			return None
+# 		saloon = AutoSaloon.objects.get(admin=request.user)
+# 		return queryset.filter(seller=saloon)
 
 
 class AttachSaloonDiscountSerializer(serializers.Serializer):
-	discounts = SaloonDiscountFilteredPrimaryKeyRelatedField(queryset=SaloonDiscount.objects.all(), many=True)
+	discounts = serializers.PrimaryKeyRelatedField(queryset=SaloonDiscount.objects.all(), many=True)
