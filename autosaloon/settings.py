@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     # my apps
     'cars',
     'trading',
+    'statistics_app',
 ]
 
 MIDDLEWARE = [
