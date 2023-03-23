@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Sum, Max
 
 from trading.models import SaloonToBuyerHistory, DealerToSaloonHistory
 from statistics_app.serializers import AutoSaloonStatisticsSerializer, DealerStatisticsSerializer, ProfileStatisticsSerializer
@@ -6,26 +6,15 @@ from statistics_app.serializers import AutoSaloonStatisticsSerializer, DealerSta
 
 def get_profile_stat(profile_id):
 
-    db_data = SaloonToBuyerHistory.objects.filter(profile=profile_id).prefetch_related('car').\
-        values_list('car__model_name', 'deal_price')
+    base_query = SaloonToBuyerHistory.objects.filter(profile=profile_id)
 
-    # Aggregation sum deal_price
-    # max price
-    # count
-    car_models_bought = set()
-    cars_amount = 0
-    money_spent = 0
-    max_price = 0
-    for item in db_data:
-        cars_amount += 1
-        car_models_bought.add(item[0])
-        price = item[1]
-        money_spent += price
-        if price > max_price:
-            max_price = price
+    car_models_bought = base_query.prefetch_related('car').values_list('car__model_name', flat=True).distinct()
+    cars_amount = base_query.count()
+    money_spent = base_query.values('deal_price').aggregate(total=Sum('deal_price'))
+    max_price = base_query.values('deal_price').aggregate(max_deal=Max('deal_price'))
 
-    data = {'car_models_bought': car_models_bought, 'cars_amount': cars_amount, 'money_spent': money_spent,
-            'max_price': max_price}
+    data = {'car_models_bought': list(car_models_bought), 'cars_amount': cars_amount, 'money_spent': money_spent['total'],
+            'max_price': max_price['max_deal']}
 
     serializer = ProfileStatisticsSerializer(data=data)
     if serializer.is_valid():
@@ -35,10 +24,9 @@ def get_profile_stat(profile_id):
 def get_dealer_stat(dealer_id):
     base_query = DealerToSaloonHistory.objects.filter(dealer=dealer_id)
 
-    deals = base_query.values_list('deal_price', flat=True)
-    n_cars_sold = len(deals) # count
-    money_earned = sum(deals)
-    max_deal = max(deals)
+    n_cars_sold = base_query.count()
+    money_earned = base_query.aggregate(total=Sum('deal_price'))['total']
+    max_deal = base_query.aggregate(max_deal=Max('deal_price'))['max_deal']
 
     top_saloons = base_query.prefetch_related('saloon').values('saloon__name').annotate(
         amount=Count('saloon')).order_by('-amount')[:10]
@@ -54,11 +42,10 @@ def get_dealer_stat(dealer_id):
 
 def get_saloon_stat(saloon_id):
     base_buyer_query = SaloonToBuyerHistory.objects.filter(saloon=saloon_id)
-    buyer_query = base_buyer_query.values_list('deal_price', flat=True)
 
-    n_cars_sold = len(buyer_query)
-    money_earned = sum(buyer_query)
-    max_deal = max(buyer_query)
+    n_cars_sold = base_buyer_query.count()
+    money_earned = base_buyer_query.aggregate(total=Sum('deal_price'))['total']
+    max_deal = base_buyer_query.aggregate(max_deal=Max('deal_price'))['max_deal']
 
     top_cars_sold = base_buyer_query.prefetch_related('car').values('car__model_name').annotate(
         amount=Count('car')).order_by('-amount')[:10]
@@ -66,8 +53,8 @@ def get_saloon_stat(saloon_id):
         cars_bought=Count('profile')).order_by('-cars_bought')[:10]
 
     base_dealer_query = DealerToSaloonHistory.objects.filter(saloon=saloon_id)
-    dealer_query = base_dealer_query.values_list('deal_price', flat=True)
-    money_spent = sum(dealer_query)
+
+    money_spent = base_dealer_query.aggregate(total=Sum('deal_price'))['total']
     money_diff = money_earned - money_spent
 
     top_dealers = base_dealer_query.prefetch_related('dealer').values('dealer__name').annotate(
