@@ -17,12 +17,10 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 pyjwt = "==1.7.1"
 drf-yasg = "*"
-
 celery = "*"
 typing-extensions = "*"
-
 pytest-mock = "*"
-
+django-debug-toolbar = "*"
 
 [dev-packages]
 
