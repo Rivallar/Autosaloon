@@ -21,6 +21,7 @@ celery = "*"
 typing-extensions = "*"
 pytest-mock = "*"
 gunicorn = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
